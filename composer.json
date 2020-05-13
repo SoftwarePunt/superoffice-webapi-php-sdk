@@ -13,6 +13,7 @@
     "require": {
         "php": ">=7.4",
         "ext-curl": "*",
+        "ext-json": "*",
         "guzzlehttp/guzzle": "~5.0"
     },
     "autoload": {
