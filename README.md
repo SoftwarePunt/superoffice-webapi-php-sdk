@@ -1,11 +1,12 @@
 # `superoffice-webapi`
 
-👨‍💻 **PHP SDK for SuperOffice Web API**
+***PHP SDK for SuperOffice Web API***
 
-This library provides an unofficial PHP SDK for the SuperOffice [WebAPI](https://community.superoffice.com/documentation/sdk/SO.NetServer.Web.Services/html/Reference-WebAPI-WebAPI.htm).
+This library provides an unofficial PHP SDK for the SuperOffice [REST WebAPI](https://community.superoffice.com/documentation/sdk/SO.NetServer.Web.Services/html/Reference-WebAPI-REST-REST.htm).
+
+⚠ **Note: This library is a work in progress, and currently only targets CRM Online (SuperOffice Cloud).**
 
 ## Installation
-This library is available as a [Composer package](https://packagist.org/packages/roydejong/superoffice-webapi):
+The recommended way to install this library is with [Composer](http://getcomposer.org/), by adding the [package](https://packagist.org/packages/roydejong/superoffice-webapi) as a dependency to your project:
 
-    composer install roydejong/superoffice-webapi
-
+    composer require roydejong/superoffice-webapi
