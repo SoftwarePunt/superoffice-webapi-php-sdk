@@ -5,4 +5,3 @@ script: vendor/bin/phpunit
 
 php:
   - 7.4
-  - nightly
