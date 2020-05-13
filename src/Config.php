@@ -2,17 +2,23 @@
 
 namespace roydejong\SoWebApi;
 
+use roydejong\SoWebApi\Data\SuperOfficeEnvironment;
+
 /**
  * Configuration data for the SuperOffice API environment.
  */
 class Config
 {
     /**
-     * Defines the base URL for the SuperOffice installation.
-     *
-     * @example https://sod2.superoffice.com/CustXXXX
+     * Determines which cloud environment to use (sod, stage or online).
      */
-    public string $baseUrl;
+    public string $environment;
+
+    /**
+     * Defines the customer / tenant ID.
+     * Usually in the format "Cust12345".
+     */
+    public string $tenantId;
 
     /**
      * Client ID (Application ID).
@@ -40,7 +46,7 @@ class Config
                     $this->$key = $value;
                 } else {
                     throw new \InvalidArgumentException(
-                        "Cannot set configuration key {$key}: invalid key, or value is not a string");
+                        "Cannot set configuration key {$key}: invalid key");
                 }
             }
         }
