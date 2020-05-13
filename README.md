@@ -39,6 +39,8 @@ $client = new Client($config);
 You can also set the configuration values by array:
 
 ```php
+<?php
+
 new Config([
     'environment' => "sod",
     'tenantId' => "Cust12345"
@@ -47,7 +49,7 @@ new Config([
 ```
 
 ### Options
-All of the following options must be set:
+Available configuration options:
 
 |Key|Type|Required?|Description|
 |---|----|--------|-----------|
