@@ -1,0 +1,14 @@
+{
+    "name": "roydejong/superoffice-webapi",
+    "description": "Unofficial PHP SDK for SuperOffice WebAPI",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roy de Jong",
+            "email": "roy@softwarepunt.nl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
