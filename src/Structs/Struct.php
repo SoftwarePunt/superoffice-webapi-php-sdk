@@ -112,7 +112,7 @@ abstract class Struct
                 $allowNull = ($phpType instanceof \ReflectionNamedType && $phpType->allowsNull());
 
                 // Check if the php type is a class, we may need to do conversion magic
-                $phpTypeStr = (string)$phpType->getName();
+                $phpTypeStr = $phpType->getName();
 
                 if (!is_object($value) && class_exists($phpType)) {
                     if ($phpTypeStr === "DateTime" || $phpTypeStr === "\DateTime") {
