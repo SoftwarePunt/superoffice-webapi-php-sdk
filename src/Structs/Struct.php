@@ -114,7 +114,7 @@ abstract class Struct
                 // Check if the php type is a class, we may need to do conversion magic
                 $phpTypeStr = $phpType->getName();
 
-                if (!is_object($value) && class_exists($phpType)) {
+                if (!is_object($value) && class_exists($phpTypeStr)) {
                     if ($phpTypeStr === "DateTime" || $phpTypeStr === "\DateTime") {
                         // Try to parse as DateTime value
                         $value = new \DateTime($value);
