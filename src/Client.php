@@ -2,8 +2,9 @@
 
 namespace roydejong\SoWebApi;
 
-use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use roydejong\SoWebApi\Structs\Meta\TenantStatus;
+use roydejong\SoWebApi\Structs\OAuth\TokenResponse;
 
 /**
  * Base client for the SuperOffice WebAPI.
@@ -40,7 +41,17 @@ class Client
         return $this->config;
     }
 
-    protected function __request(string $method, string $url, string $body = null): Response
+    /**
+     * Internal wrapper function for performing requests.
+     *
+     * @param string $method Request method (e.g. "GET" or "POST").
+     * @param string $url Full request URL.
+     * @param string|null $body
+     * @return ResponseInterface
+     *
+     * @throws WebApiException
+     */
+    protected function __request(string $method, string $url, string $body = null): ResponseInterface
     {
         try {
             return $this->httpClient->request($method, $url, [
@@ -59,15 +70,8 @@ class Client
      */
     public function getTenantStatus(): TenantStatus
     {
-        // https://<ENV>.superoffice.com/api/state/<TENANT>
-
         $url = "https://{$this->config->environment}.superoffice.com/api/state/{$this->config->tenantId}";
         $response = $this->__request("GET", $url);
-
-        if ($response->getStatusCode() !== 200) {
-            throw new WebApiException("Unable to get tenant status, expected 200 OK");
-        }
-
         return new TenantStatus((string)$response->getBody());
     }
 
@@ -107,5 +111,20 @@ class Client
         ]);
 
         return "https://{$this->config->environment}.superoffice.com/login/common/oauth/tokens?{$params}";
+    }
+
+    /**
+     * Requests an OAuth access token for a given authorization code.
+     *
+     * @param string $code The authorization code received from the user callback.
+     * @return TokenResponse
+     *
+     * @throws WebApiException
+     */
+    public function requestOAuthAccessToken(string $code): TokenResponse
+    {
+        $url = $this->getOAuthTokensUrl($code);
+        $response = $this->__request("POST", $url);
+        return new TokenResponse((string)$response->getBody());
     }
 }

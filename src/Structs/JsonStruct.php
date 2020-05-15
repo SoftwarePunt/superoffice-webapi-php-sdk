@@ -2,8 +2,6 @@
 
 namespace roydejong\SoWebApi\Structs;
 
-use roydejong\SoWebApi\WebApiException;
-
 /**
  * Helper class for quickly converting between typed PHP objects and JSON data.
  */
@@ -33,7 +31,7 @@ abstract class JsonStruct extends Struct
         $parsedArray = @json_decode($jsonInput, true);
 
         if (!$parsedArray || !is_array($parsedArray)) {
-            throw new \InvalidArgumentException("Could not parse string as JSON");
+            throw new \InvalidArgumentException("Could not parse string as JSON: {$jsonInput}");
         }
 
         $this->fillFromArray($parsedArray);

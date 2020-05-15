@@ -55,6 +55,52 @@ Available configuration options:
 |---|----|--------|-----------|
 |`environment`|`string`|☑|SuperOffice environment (`sod`, `stage` or `online`).|
 |`tenantId`|`string`|☑|Customer / Context ID, usually in the format `Cust12345`.|
-|`clientId`|`string`|☑|Client ID (Application ID).|
-|`clientSecret`|`string`|☑|Client secret (Application Token).|
-|`privateKey`|`string`| |Private key for system user token signing (`<RSAKeyValue>` block).|
+|`clientId`|`string`|For OAuth|Client ID (Application ID).|
+|`clientSecret`|`string`|For OAuth|Client secret (Application Token).|
+|`redirectUri`|`string`|For OAuth|OAuth callback URL. Must exactly match a redirect URI registered with SuperOffice.|
+|`privateKey`|`string`|?|Private key for system user token signing (`<RSAKeyValue>` block).|
+
+## Usage
+
+### Authentication (OAuth / SuperId)
+If you are targeting Online CRM, you must use OAuth to aquire a `BEARER` access token for the web api.
+
+Local must use `BASIC` / `SOTICKET` authentication methods are currently not supported
+
+#### 1. Redirect user to authorization screen
+After setting your configuration, you can ask the client to generate the OAuth authorization URL:
+
+```php
+<?php 
+
+use roydejong\SoWebApi\Client;
+
+$client = new Client(/* $config */);
+$redirectUrl = $client->getOAuthAuthorizationUrl("optional_state");
+````
+
+This will generate a redirect URL like `https://env-name.superoffice.com/login/common/oauth/authorize?client_id=...`.
+
+When you redirect the user to this URL, they will be asked to authorize your application and grant access to their account.
+
+#### 2. Request access token 
+Once the user authorizes your app, you will receive a callback request on your configured `requestUri`.
+
+You can can exchange the `code` parameter in the request for an access token:
+
+```php
+$tokenResponse = $client->requestOAuthAccessToken($_GET['code']);
+```
+
+The `TokenResponse` object contains the following keys:
+
+|Key|Type|Description|
+|---|----|-----------|
+|`token_type`|`string`|Should be set to `Bearer`.|
+|`access_token`|`string`|The actual access token.|
+|`expires_in`|`int`|The lifetime in seconds of the access token.|
+|`refresh_token`|`string`|Can be used to generate access tokens, as long as the user hasn't revoked application access.|
+|`id_token`|`string`|JSON Web Token (JWT), can be used to verify that the tokens came from the real SuperId server.|
+
+Your application is responsible for storing these tokens.
+

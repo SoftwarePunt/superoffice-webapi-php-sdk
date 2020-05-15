@@ -42,13 +42,13 @@ class ClientTest extends TestCase
 
     public function testGetOAuthAuthorizationUrl()
     {
-        $configObj = new Config([
+        $client = new Client(new Config([
             'environment' => 'env-name',
             'clientId' => 'abcdef',
             'redirectUri' => 'http://test-callback.com',
-        ]);
+        ]));
 
-        $client = new Client($configObj);
+        // ...
 
         $actualUrl = $client->getOAuthAuthorizationUrl('state123');
         $expectedUrl = "https://env-name.superoffice.com/login/common/oauth/authorize?client_id=abcdef&scope=openid&redirect_uri=http%3A%2F%2Ftest-callback.com&response_type=code&state=state123";
@@ -58,18 +58,48 @@ class ClientTest extends TestCase
 
     public function testGetOAuthTokensUrl()
     {
-        $configObj = new Config([
+        $client = new Client(new Config([
             'environment' => 'env-name',
             'clientId' => 'abcdef',
             'clientSecret' => 'xyz',
             'redirectUri' => 'http://test-callback.com',
-        ]);
+        ]));
 
-        $client = new Client($configObj);
+        // ...
 
         $actualUrl = $client->getOAuthTokensUrl('code123');
         $expectedUrl = "https://env-name.superoffice.com/login/common/oauth/tokens?client_id=abcdef&client_secret=xyz&code=code123&redirect_uri=http%3A%2F%2Ftest-callback.com&grant_type=authorization_code";
 
         $this->assertSame($expectedUrl, $actualUrl);
+    }
+
+    public function testRequestOAuthAccessToken()
+    {
+        $testJson = file_get_contents(__DIR__ . '/_samples/oauth_bearer_response.json');
+        $testResponse = new Response(200, ["Content-Type" => "application/json"], $testJson);
+
+        $mockClient = new MockClient(new Config([
+            'environment' => 'env-name',
+            'clientId' => 'abcdef',
+            'clientSecret' => 'xyz',
+            'redirectUri' => 'http://test-callback.com',
+        ]));
+        $mockClient->setMockResponse($testResponse);
+
+        // ...
+
+        $tokenResponse = $mockClient->requestOAuthAccessToken("some_code");
+
+        $this->assertInstanceOf("roydejong\SoWebApi\Structs\OAuth\TokenResponse", $tokenResponse);
+
+        $this->assertEquals("Bearer", $tokenResponse->token_type);
+        $this->assertEquals(3600, $tokenResponse->expires_in);
+
+        $this->assertEquals("8A:Cust12020.AR2s3phb0gXK8DP0NfoYlsrQAQAACIJ/KQ+cbGp0l9g8PJNlBCEZxS/1hL3Cxt8ITWlQipRbdknTbIFxUuUChHj4U1qUlP6/dJA+aKE1psfT8F4XwFlYBjvw6xmM086Vckm0Mmh+fEPuoLspl+EgtQzD0F8Ka4qLFGWICvUg==",
+            $tokenResponse->access_token);
+        $this->assertEquals("KSamN1Tp4sd26pZJSGK6JobrWOUWorIZ2Y5XxcAqX86K9qoZRp4d3lUH32F4fiT3",
+            $tokenResponse->refresh_token);
+        $this->assertEquals("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkZyZjdqRC1hc0dpRnFBREdUbVRKZkVxMTZZdyJ9.enLw7oTQ9DkuluduWDMcdHYfmImeVNDC93txA_njdmta45ZG0VBeG9lrxInXMdxWXqb_W-ogEaHYbkfugMXwlim7V1c38Wl8QR9QVNImFACzmdma_HBILmUDK9f4XdTA93TnB-WYhesJ_tvdmzrScMIFKANvNNT3smxec6ST-j1uCUBCQrVNxILapXiUrJER4aMmAbFweWs9bbgfhR9_sQVQDmLbVw",
+            $tokenResponse->id_token);
     }
 }
