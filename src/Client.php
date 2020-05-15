@@ -75,15 +75,17 @@ class Client
      * Determines the OAuth authorization URL.
      *
      * @param string $redirectUri The URL the user should be redirected to after authorizing the app.
+     * @param string|null $state Optional state for the URL.
      * @return string
      */
-    public function getOAuthAuthorizationUrl($redirectUri = "http://localhost:3300/openid/callback"): string
+    public function getOAuthAuthorizationUrl($redirectUri = "http://localhost:3300/openid/callback", ?string $state = null): string
     {
         $params = http_build_query([
             'client_id' => $this->config->clientId,
             'scope' => 'openid',
             'redirect_uri' => $redirectUri,
-            'response_type' => 'code'
+            'response_type' => 'code',
+            'state' => $state
         ]);
 
         return "https://{$this->config->environment}.superoffice.com/login/common/oauth/authorize?{$params}";

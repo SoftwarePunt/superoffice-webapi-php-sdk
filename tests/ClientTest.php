@@ -50,8 +50,8 @@ class ClientTest extends TestCase
 
         $client = new Client($configObj);
 
-        $actualUrl = $client->getOAuthAuthorizationUrl();
-        $expectedUrl = "https://env-name.superoffice.com/login/common/oauth/authorize?client_id=abcdef&scope=openid&redirect_uri=http%3A%2F%2Flocalhost%3A3300%2Fopenid%2Fcallback&response_type=code";
+        $actualUrl = $client->getOAuthAuthorizationUrl('http://test.com', 'state123');
+        $expectedUrl = "https://env-name.superoffice.com/login/common/oauth/authorize?client_id=abcdef&scope=openid&redirect_uri=http%3A%2F%2Ftest.com&response_type=code&state=state123";
 
         $this->assertSame($expectedUrl, $actualUrl);
     }
