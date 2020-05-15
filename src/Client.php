@@ -17,21 +17,21 @@ class Client
     // Core & config
 
     protected Config $config;
+    protected ?string $accessToken;
     protected \GuzzleHttp\Client $httpClient;
 
     /**
      * Initializes the client with configuration.
      *
      * @param Config $config
+     * @param string|null $accessToken
      */
-    public function __construct(Config $config)
+    public function __construct(Config $config, ?string $accessToken = null)
     {
         $this->config = $config;
-        $this->httpClient = new \GuzzleHttp\Client([
-            'headers' => [
-                'User-Agent' => self::USER_AGENT
-            ]
-        ]);
+        $this->setAccessToken($accessToken);
+
+        $this->httpClient = new \GuzzleHttp\Client();
     }
 
     /**
@@ -42,6 +42,16 @@ class Client
     public function getConfig(): Config
     {
         return $this->config;
+    }
+
+    /**
+     * Sets the access token to use for future requests.
+     *
+     * @param string|null $accessToken
+     */
+    public function setAccessToken(?string $accessToken): void
+    {
+        $this->accessToken = $accessToken;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -60,8 +70,17 @@ class Client
     protected function __request(string $method, string $url, string $body = null): ResponseInterface
     {
         try {
+            $headers = [
+                'User-Agent' => self::USER_AGENT
+            ];
+
+            if ($this->accessToken) {
+                $headers['Authorization'] = "Bearer {$this->accessToken}";
+            }
+
             return $this->httpClient->request($method, $url, [
-                'body' => $body
+                'body' => $body,
+                'headers' => $headers
             ]);
         } catch (\Exception $ex) {
             throw new WebApiException("Error in HTTP request: {$ex->getMessage()}", $ex->getCode(), $ex);

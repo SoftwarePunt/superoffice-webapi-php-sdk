@@ -4,6 +4,7 @@ namespace roydejong\SoWebApiTests;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
 use roydejong\SoWebApi\Client;
 use roydejong\SoWebApi\Config;
 use roydejong\SoWebApiTests\Mock\MockClient;
@@ -20,6 +21,28 @@ class ClientTest extends TestCase
         ]);
         $client = new Client($configObj);
         $this->assertSame($configObj, $client->getConfig());
+    }
+
+    public function testSetAccessToken()
+    {
+        $testToken = "my_bearer_token";
+        $mockAssertionFired = false;
+
+        $client = new MockClient();
+        $client->setAccessToken($testToken);
+        $client->setMockHandler(function (RequestInterface $request) use ($testToken, &$mockAssertionFired) {
+            $this->assertSame(
+                $request->getHeader("Authorization")[0],
+                "Bearer {$testToken}"
+            );
+            $mockAssertionFired = true;
+            return new Response(200);
+        });
+
+        $client->getTenantStatus();
+
+        if (!$mockAssertionFired)
+            $this->markTestIncomplete('Mock assertion did not fire');
     }
 
     // -----------------------------------------------------------------------------------------------------------------

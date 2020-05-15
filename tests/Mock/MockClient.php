@@ -20,10 +20,13 @@ class MockClient extends Client
         parent::__construct($config);
     }
 
-    public function setMockResponse(Response $response)
+    public function setMockResponse(Response $response): void
     {
-        $handler = new MockHandler([$response]);
+        $this->setMockHandler(new MockHandler([$response]));
+    }
 
+    public function setMockHandler(callable $handler): void
+    {
         $this->httpClient = new \GuzzleHttp\Client([
             'handler' => $handler
         ]);

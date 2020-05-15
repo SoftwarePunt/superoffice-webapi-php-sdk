@@ -60,14 +60,12 @@ Available configuration options:
 |`redirectUri`|`string`|*For OAuth*|OAuth callback URL. Must exactly match a redirect URI registered with SuperOffice.|
 |`privateKey`|`string`|No|Private key for system user token signing (`<RSAKeyValue>` block).|
 
-## Usage
-
-### Authentication (OAuth / SuperId)
+## Authentication (OAuth / SuperId)
 If you are targeting Online CRM, you must use OAuth to aquire a `BEARER` access token for the web api.
 
 Local installations must use `BASIC` / `SOTICKET` authentication methods (currently not supported by this library).
 
-#### 1. Redirect user to authorization screen
+### Redirect user to authorization screen
 After setting your configuration, you can ask the client to generate the OAuth authorization URL:
 
 ```php
@@ -83,7 +81,7 @@ This will generate a redirect URL like `https://env-name.superoffice.com/login/c
 
 When you redirect the user to this URL, they will be asked to authorize your application and grant access to their account.
 
-#### 2. Request access token 
+### Request access token 
 Once the user authorizes your app, you will receive a callback request on your configured `requestUri`.
 
 You can can exchange the `code` parameter in the request for an access token:
@@ -106,7 +104,7 @@ The `TokenResponse` object contains the following keys:
 
 Your application is responsible for storing these tokens.
 
-#### 3. Request access token
+### Refresh access token
 You can use the `refresh_token` to generate new access tokens, as long as the user hasn't revoked your application's access:
 
  
@@ -116,4 +114,44 @@ You can use the `refresh_token` to generate new access tokens, as long as the us
 $tokenResponse = $client->refreshOAuthAccessToken($tokenResponse->refresh_token);
 ```
 
-This response will not contain a refresh token.
+This response will be a `TokenResponse` object, but with `refresh_token` set to `null`.
+
+### Configure access token
+You must explicitly set the access token you want to use with the client before performing any requests:
+
+```php
+<?php
+
+use roydejong\SoWebApi\Client;
+
+// Optionally pass it directly in the client constructor:
+$client = new Client(/* $config */, $tokenResponse->access_token);
+
+// Or set it on an existing client instance:
+$client->setAccessToken($tokenResponse->access_token);
+``` 
+
+## Tenant status check
+You can perform a [tenant status check](https://community.superoffice.com/en/developer/create-apps/how-to/develop/check-tenant-status/) to verify whether a customer's online environment is available or not.
+
+> Each tenant has a status page where you can check its state to ensure your application remains stable and responds accordingly.
+
+```php
+<?php
+
+use roydejong\SoWebApi\Client;
+
+// Authentication is not required, but "tenantId" must be set in your config.
+$client = new Client(/* $config */);
+$tenantStatus = $client->getTenantStatus();
+```
+
+The `TenantStatus` object contains the following keys: 
+
+|Key|Type|Description|
+|---|----|-----------|
+|`ContextIdentifier`|`string`|Customer instance id, typically formatted like "Cust12345".|
+|`Endpoint`|`string`|The load-balanced base URL of the customer installation.|
+|`State`|`string`|Tenant status. Should be "Running" under normal conditions.|
+|`IsRunning`|`bool`|This indicates whether the tenant is up and running.|
+|`ValidUntil`|`DateTime`|When to check next time if an updated state is needed.|
