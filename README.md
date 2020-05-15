@@ -106,3 +106,14 @@ The `TokenResponse` object contains the following keys:
 
 Your application is responsible for storing these tokens.
 
+#### 3. Request access token
+You can use the `refresh_token` to generate new access tokens, as long as the user hasn't revoked your application's access:
+
+ 
+```php
+<?php
+
+$tokenResponse = $client->refreshOAuthAccessToken($tokenResponse->refresh_token);
+```
+
+This response will not contain a refresh token.
