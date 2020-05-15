@@ -74,20 +74,38 @@ class Client
     /**
      * Determines the OAuth authorization URL.
      *
-     * @param string $redirectUri The URL the user should be redirected to after authorizing the app.
      * @param string|null $state Optional state for the URL.
      * @return string
      */
-    public function getOAuthAuthorizationUrl($redirectUri = "http://localhost:3300/openid/callback", ?string $state = null): string
+    public function getOAuthAuthorizationUrl(?string $state = null): string
     {
         $params = http_build_query([
             'client_id' => $this->config->clientId,
             'scope' => 'openid',
-            'redirect_uri' => $redirectUri,
+            'redirect_uri' => $this->config->redirectUri,
             'response_type' => 'code',
             'state' => $state
         ]);
 
         return "https://{$this->config->environment}.superoffice.com/login/common/oauth/authorize?{$params}";
+    }
+
+    /**
+     * Determines the OAuth token request URL.
+     *
+     * @param string $code The authorization code received from the user callback.
+     * @return string
+     */
+    public function getOAuthTokensUrl(string $code): string
+    {
+        $params = http_build_query([
+            'client_id' => $this->config->clientId,
+            'client_secret' => $this->config->clientSecret,
+            'code' => $code,
+            'redirect_uri' => $this->config->redirectUri,
+            'grant_type' => 'authorization_code'
+        ]);
+
+        return "https://{$this->config->environment}.superoffice.com/login/common/oauth/tokens?{$params}";
     }
 }

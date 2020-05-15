@@ -36,6 +36,12 @@ class Config
     public string $privateKey;
 
     /**
+     * The redirect URL used for OAuth callbacks / authentication responses.
+     * It must exactly match one of the redirecturis registered with SuperOffice.
+     */
+    public string $redirectUri;
+
+    /**
      * @param array|null $values Optional array of configuration values to set.
      */
     public function __construct(?array $values = null)

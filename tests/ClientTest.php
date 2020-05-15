@@ -43,15 +43,32 @@ class ClientTest extends TestCase
     public function testGetOAuthAuthorizationUrl()
     {
         $configObj = new Config([
-            'tenantId' => 'Cust00000',
             'environment' => 'env-name',
-            'clientId' => 'abcdef'
+            'clientId' => 'abcdef',
+            'redirectUri' => 'http://test-callback.com',
         ]);
 
         $client = new Client($configObj);
 
-        $actualUrl = $client->getOAuthAuthorizationUrl('http://test.com', 'state123');
-        $expectedUrl = "https://env-name.superoffice.com/login/common/oauth/authorize?client_id=abcdef&scope=openid&redirect_uri=http%3A%2F%2Ftest.com&response_type=code&state=state123";
+        $actualUrl = $client->getOAuthAuthorizationUrl('state123');
+        $expectedUrl = "https://env-name.superoffice.com/login/common/oauth/authorize?client_id=abcdef&scope=openid&redirect_uri=http%3A%2F%2Ftest-callback.com&response_type=code&state=state123";
+
+        $this->assertSame($expectedUrl, $actualUrl);
+    }
+
+    public function testGetOAuthTokensUrl()
+    {
+        $configObj = new Config([
+            'environment' => 'env-name',
+            'clientId' => 'abcdef',
+            'clientSecret' => 'xyz',
+            'redirectUri' => 'http://test-callback.com',
+        ]);
+
+        $client = new Client($configObj);
+
+        $actualUrl = $client->getOAuthTokensUrl('code123');
+        $expectedUrl = "https://env-name.superoffice.com/login/common/oauth/tokens?client_id=abcdef&client_secret=xyz&code=code123&redirect_uri=http%3A%2F%2Ftest-callback.com&grant_type=authorization_code";
 
         $this->assertSame($expectedUrl, $actualUrl);
     }
