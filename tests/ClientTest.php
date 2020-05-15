@@ -39,4 +39,20 @@ class ClientTest extends TestCase
         $this->assertEquals(true, $tenantStatus->IsRunning);
         $this->assertEquals("2020-05-13 17:49:37", $tenantStatus->ValidUntil->format('Y-m-d H:i:s'));
     }
+
+    public function testGetOAuthAuthorizationUrl()
+    {
+        $configObj = new Config([
+            'tenantId' => 'Cust00000',
+            'environment' => 'env-name',
+            'clientId' => 'abcdef'
+        ]);
+
+        $client = new Client($configObj);
+
+        $actualUrl = $client->getOAuthAuthorizationUrl();
+        $expectedUrl = "https://env-name.superoffice.com/login/common/oauth/authorize?client_id=abcdef&scope=openid&redirect_uri=http%3A%2F%2Flocalhost%3A3300%2Fopenid%2Fcallback&response_type=code";
+
+        $this->assertSame($expectedUrl, $actualUrl);
+    }
 }

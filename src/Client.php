@@ -70,4 +70,22 @@ class Client
 
         return new TenantStatus((string)$response->getBody());
     }
+
+    /**
+     * Determines the OAuth authorization URL.
+     *
+     * @param string $redirectUri The URL the user should be redirected to after authorizing the app.
+     * @return string
+     */
+    public function getOAuthAuthorizationUrl($redirectUri = "http://localhost:3300/openid/callback"): string
+    {
+        $params = http_build_query([
+            'client_id' => $this->config->clientId,
+            'scope' => 'openid',
+            'redirect_uri' => $redirectUri,
+            'response_type' => 'code'
+        ]);
+
+        return "https://{$this->config->environment}.superoffice.com/login/common/oauth/authorize?{$params}";
+    }
 }
