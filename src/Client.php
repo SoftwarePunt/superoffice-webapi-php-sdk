@@ -13,6 +13,9 @@ class Client
 {
     const USER_AGENT = "superoffice-webapi (https://github.com/roydejong/superoffice-webapi-php-sdk)";
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Core & config
+
     protected Config $config;
     protected \GuzzleHttp\Client $httpClient;
 
@@ -41,6 +44,9 @@ class Client
         return $this->config;
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Common request code
+
     /**
      * Internal wrapper function for performing requests.
      *
@@ -62,6 +68,9 @@ class Client
         }
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Tenant status methods
+
     /**
      * Retrieves the Tenant Status for a SuperOffice environment.
      *
@@ -74,6 +83,9 @@ class Client
         $response = $this->__request("GET", $url);
         return new TenantStatus((string)$response->getBody());
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // OAuth URLs
 
     /**
      * Determines the OAuth authorization URL.
@@ -95,23 +107,45 @@ class Client
     }
 
     /**
-     * Determines the OAuth token request URL.
+     * Determines the OAuth token request URL (authorization_code).
      *
      * @param string $code The authorization code received from the user callback.
      * @return string
      */
-    public function getOAuthTokensUrl(string $code): string
+    public function getOAuthRequestAccessTokenUrl(string $code): string
     {
         $params = http_build_query([
             'client_id' => $this->config->clientId,
             'client_secret' => $this->config->clientSecret,
             'code' => $code,
             'redirect_uri' => $this->config->redirectUri,
-            'grant_type' => 'authorization_code'
+            'grant_type' => "authorization_code"
         ]);
 
         return "https://{$this->config->environment}.superoffice.com/login/common/oauth/tokens?{$params}";
     }
+
+    /**
+     * Determines the OAuth token request URL (refresh_token).
+     *
+     * @param string $refreshToken The refresh token acquired after initial authorization.
+     * @return string
+     */
+    public function getOAuthRefreshAccessToken(string $refreshToken): string
+    {
+        $params = http_build_query([
+            'grant_type' => "refresh_token",
+            'client_id' => $this->config->clientId,
+            'client_secret' => $this->config->clientSecret,
+            'refresh_token' => $refreshToken,
+            'redirect_uri' => $this->config->redirectUri,
+        ]);
+
+        return "https://{$this->config->environment}.superoffice.com/login/common/oauth/tokens?{$params}";
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // OAuth methods
 
     /**
      * Requests an OAuth access token for a given authorization code.
@@ -123,7 +157,20 @@ class Client
      */
     public function requestOAuthAccessToken(string $code): TokenResponse
     {
-        $url = $this->getOAuthTokensUrl($code);
+        $url = $this->getOAuthRequestAccessTokenUrl($code);
+        $response = $this->__request("POST", $url);
+        return new TokenResponse((string)$response->getBody());
+    }
+
+    /**
+     * Requests a new OAuth access token for a given refresh token.
+     *
+     * @param string $refreshToken The refresh token acquired after initial authorization.
+     * @return TokenResponse
+     */
+    public function refreshOAuthAccessToken(string $refreshToken): TokenResponse
+    {
+        $url = $this->getOAuthRefreshAccessToken($refreshToken);
         $response = $this->__request("POST", $url);
         return new TokenResponse((string)$response->getBody());
     }

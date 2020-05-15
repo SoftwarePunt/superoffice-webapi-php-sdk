@@ -28,8 +28,10 @@ class TokenResponse extends JsonStruct
      * The refresh token is a long lived token that can be re-used.
      *
      * It is coupled to an end-users consent and is valid as long as the application authorization (consent) exists.
+     *
+     * May be set to NULL if this was a refresh.
      */
-    public string $refresh_token;
+    public ?string $refresh_token = null;
 
     /**
      * JSON Web Token (JWT), which consists of a Header, Payload and Signature.
