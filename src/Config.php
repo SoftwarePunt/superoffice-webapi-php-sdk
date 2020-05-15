@@ -2,8 +2,6 @@
 
 namespace roydejong\SoWebApi;
 
-use roydejong\SoWebApi\Data\SuperOfficeEnvironment;
-
 /**
  * Configuration data for the SuperOffice API environment.
  */

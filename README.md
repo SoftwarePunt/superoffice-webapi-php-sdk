@@ -3,14 +3,14 @@
 [![Latest Stable Version](https://poser.pugx.org/roydejong/superoffice-webapi/version)](https://packagist.org/packages/roydejong/superoffice-webapi)
 [![Travis CI Build](https://travis-ci.org/roydejong/superoffice-webapi-php-sdk.svg?branch=master)](https://travis-ci.org/github/roydejong/superoffice-webapi-php-sdk)
 
-***PHP SDK for SuperOffice Web API***
+***Unofficial PHP SDK for SuperOffice Web API***
 
-This library provides an unofficial PHP SDK for the SuperOffice [REST WebAPI](https://community.superoffice.com/documentation/sdk/SO.NetServer.Web.Services/html/Reference-WebAPI-REST-REST.htm).
+This library provides a PHP SDK for the SuperOffice [REST WebAPI](https://community.superoffice.com/documentation/sdk/SO.NetServer.Web.Services/html/Reference-WebAPI-REST-REST.htm).
 
-⚠ **Note: This library is a work in progress, and currently only targets CRM Online (SuperOffice Cloud).**
+> ⚠ **Note: This library is a work-in-progress, and only targets CRM Online (SuperOffice Cloud).**
 
 ## Installation
-The recommended way to install this library is with [Composer](http://getcomposer.org/), by adding the [package](https://packagist.org/packages/roydejong/superoffice-webapi) as a dependency to your project:
+The recommended way to install this library is with [Composer](http://getcomposer.org/), by adding the [`superoffice-webapi`](https://packagist.org/packages/roydejong/superoffice-webapi) package as a dependency to your application:
 
     composer require roydejong/superoffice-webapi
     
@@ -53,19 +53,19 @@ Available configuration options:
 
 |Key|Type|Required?|Description|
 |---|----|--------|-----------|
-|`environment`|`string`|☑|SuperOffice environment (`sod`, `stage` or `online`).|
-|`tenantId`|`string`|☑|Customer / Context ID, usually in the format `Cust12345`.|
-|`clientId`|`string`|For OAuth|Client ID (Application ID).|
-|`clientSecret`|`string`|For OAuth|Client secret (Application Token).|
-|`redirectUri`|`string`|For OAuth|OAuth callback URL. Must exactly match a redirect URI registered with SuperOffice.|
-|`privateKey`|`string`|?|Private key for system user token signing (`<RSAKeyValue>` block).|
+|`environment`|`string`|Yes|SuperOffice environment (`sod`, `stage` or `online`).|
+|`tenantId`|`string`|Yes|Customer / Context ID, usually in the format `Cust12345`.|
+|`clientId`|`string`|*For OAuth*|Client ID (Application ID).|
+|`clientSecret`|`string`|*For OAuth*|Client secret (Application Token).|
+|`redirectUri`|`string`|*For OAuth*|OAuth callback URL. Must exactly match a redirect URI registered with SuperOffice.|
+|`privateKey`|`string`|No|Private key for system user token signing (`<RSAKeyValue>` block).|
 
 ## Usage
 
 ### Authentication (OAuth / SuperId)
 If you are targeting Online CRM, you must use OAuth to aquire a `BEARER` access token for the web api.
 
-Local must use `BASIC` / `SOTICKET` authentication methods are currently not supported
+Local installations must use `BASIC` / `SOTICKET` authentication methods (currently not supported by this library).
 
 #### 1. Redirect user to authorization screen
 After setting your configuration, you can ask the client to generate the OAuth authorization URL:
@@ -89,6 +89,8 @@ Once the user authorizes your app, you will receive a callback request on your c
 You can can exchange the `code` parameter in the request for an access token:
 
 ```php
+<?php
+
 $tokenResponse = $client->requestOAuthAccessToken($_GET['code']);
 ```
 

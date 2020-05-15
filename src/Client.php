@@ -11,7 +11,7 @@ use roydejong\SoWebApi\Structs\OAuth\TokenResponse;
  */
 class Client
 {
-    const USER_AGENT = "superoffice-webapi-php-sdk";
+    const USER_AGENT = "superoffice-webapi (https://github.com/roydejong/superoffice-webapi-php-sdk)";
 
     protected Config $config;
     protected \GuzzleHttp\Client $httpClient;
