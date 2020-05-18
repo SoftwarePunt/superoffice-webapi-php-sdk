@@ -41,7 +41,8 @@ class CollectionTest extends TestCase
             ->execute();
 
         if ($request) {
-            $this->assertEquals('/api/v1/Dummy?$select=Id,Name&$top=1234', (string)$request->getUri());
+            $this->assertSame('https://mock.superoffice.com/Cust12345/api/v1/Dummy?$select=Id,Name&$top=1234',
+                (string)$request->getUri());
         } else {
             $this->markTestIncomplete('Mock request handler did not fire');
         }
@@ -67,7 +68,8 @@ class CollectionTest extends TestCase
         $foundItems = $dc->query()->execute();
 
         if ($request) {
-            $this->assertEquals($request->getUri(), "/api/v1/Dummy");
+            $this->assertSame("https://mock.superoffice.com/Cust12345/api/v1/Dummy",
+                (string)$request->getUri());
         } else {
             $this->markTestIncomplete('Mock request handler did not fire');
         }
