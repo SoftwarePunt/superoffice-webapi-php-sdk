@@ -229,6 +229,9 @@ class ClientTest extends TestCase
 
     public function testGet()
     {
+        /**
+         * @var $request RequestInterface
+         */
         $request = null;
 
         $client = new MockClient();
@@ -247,6 +250,8 @@ class ClientTest extends TestCase
                 "Accept header should be set to json");
             $this->assertSame("*", $request->getHeader("Accept-Language")[0],
                 "Accept-Language header should be set to wildcard");
+            $this->assertSame('https://mock.superoffice.com/Cust12345/bla', (string)$request->getUri(),
+                "Generated request URL should automatically include base URL");
         } else {
             $this->markTestIncomplete('Mock request handler did not fire');
         }

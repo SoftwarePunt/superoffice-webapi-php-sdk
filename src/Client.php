@@ -256,7 +256,8 @@ class Client
      */
     public function get(string $path): ResponseInterface
     {
-        return $this->__request("GET", $path);
+        $url = $this->getBaseUrl() . $path;
+        return $this->__request("GET", $url);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
