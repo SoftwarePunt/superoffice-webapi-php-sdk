@@ -2,6 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/roydejong/superoffice-webapi/version)](https://packagist.org/packages/roydejong/superoffice-webapi)
 [![Travis CI Build](https://travis-ci.org/roydejong/superoffice-webapi-php-sdk.svg?branch=master)](https://travis-ci.org/github/roydejong/superoffice-webapi-php-sdk)
+[![Coverage Status](https://coveralls.io/repos/github/roydejong/superoffice-webapi-php-sdk/badge.svg)](https://coveralls.io/github/roydejong/superoffice-webapi-php-sdk)
 
 ***Unofficial PHP SDK for SuperOffice Web API***
 
