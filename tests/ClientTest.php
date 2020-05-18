@@ -26,23 +26,86 @@ class ClientTest extends TestCase
     public function testSetAccessToken()
     {
         $testToken = "my_bearer_token";
-        $mockAssertionFired = false;
+        $request = null;
 
         $client = new MockClient();
         $client->setAccessToken($testToken);
-        $client->setMockHandler(function (RequestInterface $request) use ($testToken, &$mockAssertionFired) {
+        $client->setMockHandler(function (RequestInterface $_request) use ($testToken, &$request) {
+            $request = $_request;
+            return new Response(200);
+        });
+        $client->getTenantStatus();
+
+        if ($request) {
             $this->assertSame(
                 $request->getHeader("Authorization")[0],
                 "Bearer {$testToken}"
             );
-            $mockAssertionFired = true;
+        } else {
+            $this->markTestIncomplete('Mock request handler did not fire');
+        }
+    }
+
+    public function testDefaultRequestHeaders()
+    {
+        $request = null;
+
+        $client = new MockClient();
+        $client->setMockHandler(function (RequestInterface $_request) use (&$mockAssertionFired, &$request) {
+            $request = $_request;
             return new Response(200);
         });
-
         $client->getTenantStatus();
 
-        if (!$mockAssertionFired)
-            $this->markTestIncomplete('Mock assertion did not fire');
+        if ($request) {
+            $this->assertEmpty($request->getHeader("Authorization"),
+                "Authorization header should not be set if setAccessToken() is never called");
+            $this->assertSame("application/json; charset=utf-8", $request->getHeader("Accept")[0],
+                "Accept header should be set to json");
+            $this->assertSame("*", $request->getHeader("Accept-Language")[0],
+                "Accept-Language header should be set to wildcard");
+        } else {
+            $this->markTestIncomplete('Mock request handler did not fire');
+        }
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Base URL
+
+    public function testGetEnvironmentBaseUrl()
+    {
+        $client = new Client(new Config([
+            'environment' => 'sod-bla-bla'
+        ]));
+
+        $this->assertSame("https://sod-bla-bla.superoffice.com", $client->getEnvironmentBaseUrl(),
+            "Environment base URL should use configured environment name");
+    }
+
+    public function getSetAndGetBaseUrl()
+    {
+        $client = new Client(new Config([
+            'environment' => 'sod-bla-bla'
+        ]));
+        $client->setBaseUrl("https://my.custom.url/abc123");
+
+        $this->assertSame("https://sod-bla-bla.superoffice.com", $client->getEnvironmentBaseUrl(),
+            "getEnvironmentBaseUrl() should ignore the user-provided URL");
+        $this->assertSame("https://my.custom.url/abc123", $client->getBaseUrl(),
+            "getBaseUrl() should return the user-provided value from setBaseUrl(), without any changes");
+    }
+
+    public function testGetBaseUrlFallback()
+    {
+        $client = new Client(new Config([
+            'environment' => 'sod-bla-bla',
+            'tenantId' => 'Tenant123'
+        ]));
+
+        $expectedBaseUrl = "https://sod-bla-bla.superoffice.com/Tenant123";
+
+        $this->assertSame($expectedBaseUrl, $client->getBaseUrl(),
+            "getBaseUrl() fallback should equal \"getEnvironmentBaseUrl() plus Tenant ID\"");
     }
 
     // -----------------------------------------------------------------------------------------------------------------

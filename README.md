@@ -132,9 +132,9 @@ $client->setAccessToken($tokenResponse->access_token);
 ``` 
 
 ## Tenant status check
-You can perform a [tenant status check](https://community.superoffice.com/en/developer/create-apps/how-to/develop/check-tenant-status/) to verify whether a customer's online environment is available or not.
+You can perform a [tenant status check](https://community.superoffice.com/en/developer/create-apps/how-to/develop/check-tenant-status/) to retrieve information about the customer's environment. You can use this to determine whether the environment is available or not, and get a load-balanced target URL for your API requests. 
 
-> Each tenant has a status page where you can check its state to ensure your application remains stable and responds accordingly.
+> "Each tenant has a status page where you can check its state to ensure your application remains stable and responds accordingly."
 
 ```php
 <?php
@@ -144,6 +144,12 @@ use roydejong\SoWebApi\Client;
 // Authentication is not required, but "tenantId" must be set in your config.
 $client = new Client(/* $config */);
 $tenantStatus = $client->getTenantStatus();
+
+// If the target environment is offline, do not proceed:
+if (!$tenantStatus->IsRunning) die("Tenant offline!");
+
+// Tenant status gives a load-balanced base URL you can set on the client:
+$client->setBaseUrl($tenantStatus->Endpoint);
 ```
 
 The `TenantStatus` object contains the following keys: 

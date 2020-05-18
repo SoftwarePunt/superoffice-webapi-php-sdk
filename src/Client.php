@@ -18,6 +18,7 @@ class Client
 
     protected Config $config;
     protected ?string $accessToken;
+    protected ?string $baseUrl;
     protected \GuzzleHttp\Client $httpClient;
 
     /**
@@ -30,7 +31,7 @@ class Client
     {
         $this->config = $config;
         $this->setAccessToken($accessToken);
-
+        $this->baseUrl = null;
         $this->httpClient = new \GuzzleHttp\Client();
     }
 
@@ -52,6 +53,47 @@ class Client
     public function setAccessToken(?string $accessToken): void
     {
         $this->accessToken = $accessToken;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Base URL
+
+    /**
+     * Gets the global base URL for the environment, ignoring the load-balanced/user-defined URL.
+     * Used as the base URL for Tenant Status and OAuth processes.
+     *
+     * @example https://env.superoffice.com
+     * @return string
+     */
+    public function getEnvironmentBaseUrl(): string
+    {
+        return "https://{$this->config->environment}.superoffice.com";
+    }
+
+    /**
+     * Gets the user base URL for WebAPI requests, which is the environment URL plus Tenant ID.
+     * This matches the "Endpoint" value of a TenantStatus.
+     *
+     * @example https://env123.superoffice.com/Cust1234
+     * @return string
+     */
+    public function getBaseUrl(): string
+    {
+        if ($this->baseUrl) {
+            return $this->baseUrl;
+        }
+
+        return $this->getEnvironmentBaseUrl() . "/{$this->config->tenantId}";
+    }
+
+    /**
+     * Sets the user base URL for WebAPI requests.
+     *
+     * @param string|null $baseUrl The base URL including Tenant ID, usually from TenantStatus::$Endpoint.
+     */
+    public function setBaseUrl(?string $baseUrl): void
+    {
+        $this->baseUrl = $baseUrl;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -100,7 +142,7 @@ class Client
      */
     public function getTenantStatus(): TenantStatus
     {
-        $url = "https://{$this->config->environment}.superoffice.com/api/state/{$this->config->tenantId}";
+        $url = "{$this->getEnvironmentBaseUrl()}/api/state/{$this->config->tenantId}";
         $response = $this->__request("GET", $url);
         return new TenantStatus((string)$response->getBody());
     }
@@ -124,7 +166,7 @@ class Client
             'state' => $state
         ]);
 
-        return "https://{$this->config->environment}.superoffice.com/login/common/oauth/authorize?{$params}";
+        return "{$this->getEnvironmentBaseUrl()}/login/common/oauth/authorize?{$params}";
     }
 
     /**
@@ -143,7 +185,7 @@ class Client
             'grant_type' => "authorization_code"
         ]);
 
-        return "https://{$this->config->environment}.superoffice.com/login/common/oauth/tokens?{$params}";
+        return "{$this->getEnvironmentBaseUrl()}/login/common/oauth/tokens?{$params}";
     }
 
     /**
@@ -162,7 +204,7 @@ class Client
             'redirect_uri' => $this->config->redirectUri,
         ]);
 
-        return "https://{$this->config->environment}.superoffice.com/login/common/oauth/tokens?{$params}";
+        return "{$this->getEnvironmentBaseUrl()}/login/common/oauth/tokens?{$params}";
     }
 
     // -----------------------------------------------------------------------------------------------------------------
