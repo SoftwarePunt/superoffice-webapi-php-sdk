@@ -71,7 +71,9 @@ class Client
     {
         try {
             $headers = [
-                'User-Agent' => self::USER_AGENT
+                'User-Agent' => self::USER_AGENT,
+                'Accept' => 'application/json; charset=utf-8',
+                'Accept-Language' => '*'
             ];
 
             if ($this->accessToken) {
