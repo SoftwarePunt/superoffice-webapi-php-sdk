@@ -46,29 +46,6 @@ class ClientTest extends TestCase
         }
     }
 
-    public function testDefaultRequestHeaders()
-    {
-        $request = null;
-
-        $client = new MockClient();
-        $client->setMockHandler(function (RequestInterface $_request) use (&$mockAssertionFired, &$request) {
-            $request = $_request;
-            return new Response(200);
-        });
-        $client->getTenantStatus();
-
-        if ($request) {
-            $this->assertEmpty($request->getHeader("Authorization"),
-                "Authorization header should not be set if setAccessToken() is never called");
-            $this->assertSame("application/json; charset=utf-8", $request->getHeader("Accept")[0],
-                "Accept header should be set to json");
-            $this->assertSame("*", $request->getHeader("Accept-Language")[0],
-                "Accept-Language header should be set to wildcard");
-        } else {
-            $this->markTestIncomplete('Mock request handler did not fire');
-        }
-    }
-
     // -----------------------------------------------------------------------------------------------------------------
     // Base URL
 
@@ -245,6 +222,34 @@ class ClientTest extends TestCase
             $tokenResponse->access_token);
         $this->assertEquals("eyJ0eFor_Demonstration_PurposeszI1NiIsIng1dCI6IkZyZjdqRC1hc0dpRnFBREdUbVRKZkVxMTZZdyJ9.For_Demonstration_PurposesbSIsImh0dHA6Ly9zY2hlbWVzLnN1cGVyb2ZmaWNlLm5ldC9pZGVudGl0eS9hGl0eS9uZXRzZXJ2ZXJfdXJsIjoiaHR0cHM6Ly9zb2Quc3VwZXJvZmZpY2UuY29tL0N1c3QyNjc1OS9SZW1vdGUvThrOFE3RG1CZ28iLCJpYXQiOiIxNTQ2NjEzMTk4IiwiaXNzIjoiaHR0cHM6Ly9zb2Quc3VwZXJvZmZpY2UuY29tqStzCXqhSjd1u7FjsJhqr1xGLDqLzkOm9_0v0nWFHESjBuPhFPIdt6lmcCuy48HGg5G0eM1_3h6SESsukXe0hNMqp3ZHjm5dCEoxE4HziLWSdRZIUa6tkP6wfHDHU_XUJu7PHo8Wx5aG9IBPZ_r1Xd8mgmt6g",
             $tokenResponse->id_token);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Main utility methods
+
+    public function testGet()
+    {
+        $request = null;
+
+        $client = new MockClient();
+        $client->setMockHandler(function (RequestInterface $_request) use (&$mockAssertionFired, &$request) {
+            $request = $_request;
+            return new Response(200);
+        });
+        $response = $client->get('/bla');
+
+        $this->assertInstanceOf("Psr\Http\Message\ResponseInterface", $response);
+
+        if ($request) {
+            $this->assertEmpty($request->getHeader("Authorization"),
+                "Authorization header should not be set if setAccessToken() is never called");
+            $this->assertSame("application/json; charset=utf-8", $request->getHeader("Accept")[0],
+                "Accept header should be set to json");
+            $this->assertSame("*", $request->getHeader("Accept-Language")[0],
+                "Accept-Language header should be set to wildcard");
+        } else {
+            $this->markTestIncomplete('Mock request handler did not fire');
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
