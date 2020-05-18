@@ -107,6 +107,11 @@ class ClientTest extends TestCase
         $this->assertEquals("Running", $tenantStatus->State);
         $this->assertEquals(true, $tenantStatus->IsRunning);
         $this->assertEquals("2020-05-13 17:49:37", $tenantStatus->ValidUntil->format('Y-m-d H:i:s'));
+
+        // ...
+
+        $mockClient->setBaseUrl($tenantStatus->Endpoint);
+        $this->assertSame("https://sod2.superoffice.com/Cust12345", $mockClient->getBaseUrl());
     }
 
     // -----------------------------------------------------------------------------------------------------------------
