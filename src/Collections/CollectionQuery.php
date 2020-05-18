@@ -75,6 +75,11 @@ class CollectionQuery
         return $this;
     }
 
+    /**
+     * Generates a list of query parameters for the final request URL.
+     *
+     * @return array
+     */
     public function getQueryParams(): array
     {
         $query = [];
@@ -98,8 +103,37 @@ class CollectionQuery
         return $query;
     }
 
-    public function execute(): void
+    /**
+     * Generates the query parameters and represents it as unencoded query string.
+     *
+     * @return string
+     */
+    public function getQueryString(): string
     {
-        $this->collection->executeQuery($this);
+        $params = $this->getQueryParams();
+        $str = "";
+
+        foreach ($params as $key => $value) {
+            if (!empty($str)) {
+                $str .= "&";
+            }
+
+            $str .= $key;
+            $str .= '=';
+            $str .= $value;
+        }
+
+        return $str;
+    }
+
+    /**
+     * Executes this query on the collection.
+     * This is a helper function that simply calls $collection->executeQuery().
+     *
+     * @return array
+     */
+    public function execute(): array
+    {
+        return $this->collection->executeQuery($this);
     }
 }

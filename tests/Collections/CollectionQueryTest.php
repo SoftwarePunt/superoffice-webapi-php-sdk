@@ -13,7 +13,7 @@ class CollectionQueryTest extends TestCase
     public function testEmpty()
     {
         $cl = new Client(new Config([]));
-        $dc = new DummyCollection($cl);
+        $dc = new CollectionQueryTestDummyCollection($cl);
         $cq = new CollectionQuery($dc);
 
         $this->assertEmpty($cq->getQueryParams(),
@@ -23,7 +23,7 @@ class CollectionQueryTest extends TestCase
     public function testSelect()
     {
         $cl = new Client(new Config([]));
-        $dc = new DummyCollection($cl);
+        $dc = new CollectionQueryTestDummyCollection($cl);
         $cq = new CollectionQuery($dc);
 
         // Scenario 1: a single column
@@ -49,7 +49,7 @@ class CollectionQueryTest extends TestCase
     public function testLimit()
     {
         $cl = new Client(new Config([]));
-        $dc = new DummyCollection($cl);
+        $dc = new CollectionQueryTestDummyCollection($cl);
         $cq = new CollectionQuery($dc);
 
         $this->assertSame($cq, $cq->limit(123));
@@ -59,15 +59,37 @@ class CollectionQueryTest extends TestCase
     public function testOffset()
     {
         $cl = new Client(new Config([]));
-        $dc = new DummyCollection($cl);
+        $dc = new CollectionQueryTestDummyCollection($cl);
         $cq = new CollectionQuery($dc);
 
         $this->assertSame($cq, $cq->offset(456));
         $this->assertSame(['$skip' => 456], $cq->getQueryParams());
     }
+
+    /**
+     * @depends testSelect
+     * @depends testLimit
+     * @depends testOffset
+     */
+    public function testGetQueryString()
+    {
+        $cl = new Client(new Config([]));
+        $dc = new CollectionQueryTestDummyCollection($cl);
+        $cq = new CollectionQuery($dc);
+
+        $cq->select('Id,Name');
+        $cq->limit(123);
+        $cq->offset(456);
+
+        $this->assertSame(
+            '$select=Id,Name&$top=123&$skip=456',
+            $cq->getQueryString(),
+            "Query string should be generated without encoding"
+        );
+    }
 }
 
-class DummyCollection extends Collection
+class CollectionQueryTestDummyCollection extends Collection
 {
     public function getPath(): string
     {

@@ -3,6 +3,7 @@
 namespace roydejong\SoWebApi\Collections;
 
 use roydejong\SoWebApi\Client;
+use roydejong\SoWebApi\Structs\Struct;
 
 abstract class Collection
 {
@@ -27,10 +28,26 @@ abstract class Collection
      * Executes a query on this collection.
      *
      * @param CollectionQuery $query
+     * @return Struct[]
+     *
+     * @throws
      */
-    public function executeQuery(CollectionQuery $query)
+    public function executeQuery(CollectionQuery $query): array
     {
-        // TODO
+        $urlPath = $this->getPath();
+        $queryString = $query->getQueryString();
+
+        if (!empty($queryString)) {
+            $urlPath .= "?" . $queryString;
+        }
+
+        $response = $this->client->get($urlPath);
+        $body = (string)$response->getBody();
+        $parsed = json_decode($body, true);
+
+        // TODO Proper response processing into structs
+
+        return $parsed;
     }
 
     /**
