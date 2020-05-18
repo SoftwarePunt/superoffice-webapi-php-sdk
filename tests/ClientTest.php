@@ -246,4 +246,13 @@ class ClientTest extends TestCase
         $this->assertEquals("eyJ0eFor_Demonstration_PurposeszI1NiIsIng1dCI6IkZyZjdqRC1hc0dpRnFBREdUbVRKZkVxMTZZdyJ9.For_Demonstration_PurposesbSIsImh0dHA6Ly9zY2hlbWVzLnN1cGVyb2ZmaWNlLm5ldC9pZGVudGl0eS9hGl0eS9uZXRzZXJ2ZXJfdXJsIjoiaHR0cHM6Ly9zb2Quc3VwZXJvZmZpY2UuY29tL0N1c3QyNjc1OS9SZW1vdGUvThrOFE3RG1CZ28iLCJpYXQiOiIxNTQ2NjEzMTk4IiwiaXNzIjoiaHR0cHM6Ly9zb2Quc3VwZXJvZmZpY2UuY29tqStzCXqhSjd1u7FjsJhqr1xGLDqLzkOm9_0v0nWFHESjBuPhFPIdt6lmcCuy48HGg5G0eM1_3h6SESsukXe0hNMqp3ZHjm5dCEoxE4HziLWSdRZIUa6tkP6wfHDHU_XUJu7PHo8Wx5aG9IBPZ_r1Xd8mgmt6g",
             $tokenResponse->id_token);
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Collections
+
+    public function testProjects()
+    {
+        $this->assertInstanceOf("roydejong\SoWebApi\Collections\Projects\ProjectCollection",
+            (new Client(new Config()))->projects());
+    }
 }

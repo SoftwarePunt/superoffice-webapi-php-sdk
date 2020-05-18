@@ -1,0 +1,76 @@
+<?php
+
+namespace roydejong\SoWebApiTests\Collections;
+
+use PHPUnit\Framework\TestCase;
+use roydejong\SoWebApi\Client;
+use roydejong\SoWebApi\Collections\Collection;
+use roydejong\SoWebApi\Collections\CollectionQuery;
+use roydejong\SoWebApi\Config;
+
+class CollectionQueryTest extends TestCase
+{
+    public function testEmpty()
+    {
+        $cl = new Client(new Config([]));
+        $dc = new DummyCollection($cl);
+        $cq = new CollectionQuery($dc);
+
+        $this->assertEmpty($cq->getQueryParams(),
+            'An empty CollectionQuery should produce no query params');
+    }
+
+    public function testSelect()
+    {
+        $cl = new Client(new Config([]));
+        $dc = new DummyCollection($cl);
+        $cq = new CollectionQuery($dc);
+
+        // Scenario 1: a single column
+        $this->assertSame($cq, $cq->select("SomeCol"));
+        $this->assertSame(['$select' => "SomeCol"], $cq->getQueryParams());
+
+        // Scenario 2: no columns
+        $this->assertSame($cq, $cq->select());
+        $this->assertSame([], $cq->getQueryParams(),
+            "Calling select() with no values should clear selection criteria");
+
+        // Scenario 3: multi columns
+        $this->assertSame($cq, $cq->select("Abc", "Def", "Ghi"));
+        $this->assertSame(['$select' => "Abc,Def,Ghi"], $cq->getQueryParams(),
+            "Calling select() with multiple values should be be imploded in the query");
+
+        // Scenario 4: wildcard
+        $this->assertSame($cq, $cq->select("*"));
+        $this->assertSame([], $cq->getQueryParams(),
+            "Calling select() with a single wildcard \"*\" value should clear selection criteria");
+    }
+
+    public function testLimit()
+    {
+        $cl = new Client(new Config([]));
+        $dc = new DummyCollection($cl);
+        $cq = new CollectionQuery($dc);
+
+        $this->assertSame($cq, $cq->limit(123));
+        $this->assertSame(['$top' => 123], $cq->getQueryParams());
+    }
+
+    public function testOffset()
+    {
+        $cl = new Client(new Config([]));
+        $dc = new DummyCollection($cl);
+        $cq = new CollectionQuery($dc);
+
+        $this->assertSame($cq, $cq->offset(456));
+        $this->assertSame(['$skip' => 456], $cq->getQueryParams());
+    }
+}
+
+class DummyCollection extends Collection
+{
+    public function getPath(): string
+    {
+        return "/api/v1/Dummy";
+    }
+}

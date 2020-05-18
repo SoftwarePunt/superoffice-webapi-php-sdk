@@ -3,6 +3,7 @@
 namespace roydejong\SoWebApi;
 
 use Psr\Http\Message\ResponseInterface;
+use roydejong\SoWebApi\Collections\Projects\ProjectCollection;
 use roydejong\SoWebApi\Structs\Meta\TenantStatus;
 use roydejong\SoWebApi\Structs\OAuth\TokenResponse;
 
@@ -237,4 +238,23 @@ class Client
         $response = $this->__request("POST", $url);
         return new TokenResponse((string)$response->getBody());
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Main utility methods
+
+    /**
+     * Performs a HTTP GET request on the WebAPI.
+     *
+     * @param string $path The relative path to query, e.g. "/api/v1/Project/default".
+     * @return ResponseInterface
+     */
+    public function get(string $path): ResponseInterface
+    {
+        return $this->__request("GET", $path);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Collections
+
+    public function projects(): ProjectCollection { return new ProjectCollection($this); }
 }

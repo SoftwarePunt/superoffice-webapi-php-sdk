@@ -161,3 +161,8 @@ The `TenantStatus` object contains the following keys:
 |`State`|`string`|Tenant status. Should be "Running" under normal conditions.|
 |`IsRunning`|`bool`|This indicates whether the tenant is up and running.|
 |`ValidUntil`|`DateTime`|When to check next time if an updated state is needed.|
+
+## Collections
+This library exposes different collections of API entities that you can interact with. Each collection can be accesed via the client instance, e.g. `$client->projects()`.
+
+### Listing entities
