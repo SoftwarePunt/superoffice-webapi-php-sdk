@@ -252,6 +252,32 @@ class ClientTest extends TestCase
         }
     }
 
+    public function testGetWithResponseCodeError()
+    {
+        $request = null;
+
+        $client = new MockClient();
+        $client->setMockHandler(function (RequestInterface $_request) use (&$mockAssertionFired, &$request) {
+            $request = $_request;
+            return new Response(500);
+        });
+
+        $this->expectException("roydejong\SoWebapi\WebApiException");
+        $this->expectExceptionMessage("Expected 200 OK");
+
+        $client->get('/bla');
+    }
+
+    public function testGetWithRequestError()
+    {
+        $client = new MockClient();
+
+        $this->expectException("roydejong\SoWebapi\WebApiException");
+        $this->expectExceptionMessage("Error in HTTP request");
+
+        $client->get('INVALID URL 😃');
+    }
+
     // -----------------------------------------------------------------------------------------------------------------
     // Collections
 

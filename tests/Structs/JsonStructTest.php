@@ -2,8 +2,8 @@
 
 namespace roydejong\SoWebApiTests\Structs;
 
-use roydejong\SoWebApi\Structs\JsonStruct;
 use PHPUnit\Framework\TestCase;
+use roydejong\SoWebApi\Structs\JsonStruct;
 
 class JsonStructTest extends TestCase
 {
@@ -47,5 +47,22 @@ class JsonStructTest extends TestCase
         $this->assertSame(123, $testObj->id);
         $this->assertSame("test", $testObj->name);
         $this->assertSame("2019-09-13T10:25:19+00:00", $testObj->dt->format('c'));
+    }
+
+    public function testFromJsonInvalid()
+    {
+        $testStruct = new class extends JsonStruct {
+            public int $id;
+        };
+
+        $input = '{ not valid json }';
+
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage('Could not parse string as JSON');
+
+        /**
+         * @var $testObj JsonStruct
+         */
+        $testObj = new $testStruct($input);
     }
 }

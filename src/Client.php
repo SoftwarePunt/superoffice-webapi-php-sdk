@@ -123,10 +123,16 @@ class Client
                 $headers['Authorization'] = "Bearer {$this->accessToken}";
             }
 
-            return $this->httpClient->request($method, $url, [
+            $response = $this->httpClient->request($method, $url, [
                 'body' => $body,
                 'headers' => $headers
             ]);
+
+            if ($response->getStatusCode() !== 200) {
+                throw new WebApiException("Bad response: Expected 200 OK, got {$response->getStatusCode()}");
+            }
+
+            return $response;
         } catch (\Exception $ex) {
             throw new WebApiException("Error in HTTP request: {$ex->getMessage()}", $ex->getCode(), $ex);
         }

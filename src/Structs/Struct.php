@@ -43,23 +43,19 @@ abstract class Struct
     {
         $this->propNames = [];
 
-        try {
-            $rfClass = new \ReflectionClass($this);
-            $rfProperties = $rfClass->getProperties(\ReflectionProperty::IS_PUBLIC);
+        $rfClass = new \ReflectionClass($this);
+        $rfProperties = $rfClass->getProperties(\ReflectionProperty::IS_PUBLIC);
 
-            foreach ($rfProperties as $rfProperty) {
-                if ($rfProperty->isStatic()) {
-                    // Ignore static properties, only process our own public properties
-                    continue;
-                }
-
-                $propName = $rfProperty->getName();
-
-                $this->propNames[] = $propName;
-                $this->propTypes[$propName] = $rfProperty->getType();
+        foreach ($rfProperties as $rfProperty) {
+            if ($rfProperty->isStatic()) {
+                // Ignore static properties, only process our own public properties
+                continue;
             }
-        } catch (\ReflectionException $rex) {
-            // This should never happen, as "$this" is always a valid class
+
+            $propName = $rfProperty->getName();
+
+            $this->propNames[] = $propName;
+            $this->propTypes[$propName] = $rfProperty->getType();
         }
     }
 
