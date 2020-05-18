@@ -8,4 +8,7 @@ before_script:
 script:
   - vendor/bin/phpunit --coverage-clover ./clover.xml
 after_script:
+  - export CI_BUILD_NUMBER="$TRAVIS_BUILD_NUMBER"
+  - export CI_PULL_REQUEST="$TRAVIS_PULL_REQUEST"
+  - export CI_BRANCH="$TRAVIS_BRANCH"
   - vendor/bin/php-coveralls -x ./clover.xml -o ./coveralls.json -v
