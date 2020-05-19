@@ -2,6 +2,7 @@
 
 namespace roydejong\SoWebApiTests\Structs;
 
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use roydejong\SoWebApi\Structs\JsonStruct;
 
@@ -64,5 +65,17 @@ class JsonStructTest extends TestCase
          * @var $testObj JsonStruct
          */
         $testObj = new $testStruct($input);
+    }
+
+    public function testFromResponse()
+    {
+        $testStruct = new class extends JsonStruct {
+            public int $id;
+        };
+
+        $response = new Response(200, [], '{"id":123}');
+        $fromResponse = $testStruct::fromResponse($response);
+
+        $this->assertSame(123, $fromResponse->id);
     }
 }

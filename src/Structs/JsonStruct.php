@@ -2,6 +2,8 @@
 
 namespace roydejong\SoWebApi\Structs;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Helper class for quickly converting between typed PHP objects and JSON data.
  */
@@ -43,5 +45,16 @@ abstract class JsonStruct extends Struct
     public function asJson(): string
     {
         return json_encode($this->asArray());
+    }
+
+    /**
+     * Tries to initialize a JsonStruct from a ResponseInterface, by parsing its body as raw JSON.
+     *
+     * @param ResponseInterface $response
+     * @return JsonStruct
+     */
+    public static function fromResponse(ResponseInterface $response)
+    {
+        return new static((string)$response->getBody());
     }
 }

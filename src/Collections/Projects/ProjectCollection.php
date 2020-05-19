@@ -11,7 +11,8 @@ class ProjectCollection extends Collection
 
     public function getDefault(): ProjectEntity
     {
-        $response = $this->client->get(self::$PATH . "/default");
-        return new ProjectEntity((string)$response->getBody());
+        return ProjectEntity::fromResponse(
+            $this->client->get(self::$PATH . "/default")
+        );
     }
 }
