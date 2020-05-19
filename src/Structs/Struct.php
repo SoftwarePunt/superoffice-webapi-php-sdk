@@ -77,6 +77,10 @@ abstract class Struct
                 $value = $value->format('c');
             }
 
+            if ($value instanceof Struct) {
+                $value = $value->asArray();
+            }
+
             // Finally, add to array
             $array[$propName] = $value;
         }
@@ -110,12 +114,26 @@ abstract class Struct
                 // Check if the php type is a class, we may need to do conversion magic
                 $phpTypeStr = $phpType->getName();
 
+                // Handle serialized objects, e.g. converting from array to struct or string to datetime
                 if (!is_object($value) && class_exists($phpTypeStr)) {
-                    if ($phpTypeStr === "DateTime" || $phpTypeStr === "\DateTime") {
-                        // Try to parse as DateTime value
-                        $value = new \DateTime($value);
-                    } else {
-                        // TODO: Sub structs
+                    switch ($phpTypeStr) {
+                        case "DateTime":
+                        case "\DateTime":
+                            // Try to parse as DateTime value
+                            $value = new \DateTime($value);
+                            break;
+                        default:
+                            if (is_array($value)) {
+                                // If it's an array, it could be a serialized struct
+                                // Try to initialize as an object, see if it inherits from Struct
+                                $testObj = new $phpTypeStr();
+
+                                if ($testObj && $testObj instanceof Struct) {
+                                    $testObj->fillFromArray($value);
+                                    $value = $testObj;
+                                }
+                            }
+                            break;
                     }
                 }
 

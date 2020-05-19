@@ -3,31 +3,25 @@
 namespace roydejong\SoWebApiTests\Structs;
 
 use PHPUnit\Framework\TestCase;
-use roydejong\SoWebApi\Structs\JsonStruct;
 use roydejong\SoWebApi\Structs\Struct;
 
 class StructTest extends TestCase
 {
     public function testAsArray()
     {
-        $testStruct = new class extends Struct {
-            public static string $ignore;
-
-            public int $id;
-            public string $name;
-            public ?\DateTime $dt;
-            public $untyped;
-        };
-
         $dt = new \DateTime("2019-09-13T10:25:19Z");
 
-        $testObj = new $testStruct();
+        $subStruct = new StructTestTestSubStruct();
+        $subStruct->blah = "sub_value";
+
+        $testObj = new StructTestTestStruct();
         $testObj->id = 123;
         $testObj->name = "test";
         $testObj->dt = $dt;
         $testObj->untyped = "blah";
+        $testObj->sub = $subStruct;
 
-        $testStruct::$ignore = "ignore";
+        StructTestTestStruct::$ignore = "ignore";
 
         /**
          * @var $testObj Struct
@@ -37,7 +31,8 @@ class StructTest extends TestCase
             'id' => 123,
             'name' => "test",
             'dt' => $dt->format('c'), // DateTime should be auto-formatted
-            'untyped' => "blah"
+            'untyped' => "blah",
+            'sub' => $subStruct->asArray()
         ];
         $actual = $testObj->asArray();
         $this->assertEquals($expected, $actual);
@@ -45,34 +40,42 @@ class StructTest extends TestCase
 
     public function testFromArray()
     {
-        $testStruct = new class extends Struct {
-            public static string $ignore;
-
-            public int $id;
-            public string $name;
-            public ?\DateTime $dt;
-            public $untyped;
-        };
-
         $dt = new \DateTime("2019-09-13T10:25:19+00:00");
 
         $input = [
             'id' => 123,
             'name' => "test",
             'dt' => $dt,
-            'untyped' => "blah"
+            'untyped' => "blah",
+            'sub' => ['blah' => 'sub_value']
         ];
 
-        $testStruct::$ignore = "ignore";
+        StructTestTestStruct::$ignore = "ignore";
 
-        /**
-         * @var $testObj JsonStruct
-         */
-        $testObj = new $testStruct($input);
+        $testObj = new StructTestTestStruct($input);
 
         $this->assertSame(123, $testObj->id);
         $this->assertSame("test", $testObj->name);
         $this->assertSame($dt, $testObj->dt);
         $this->assertSame("blah", $testObj->untyped);
+
+        $subStructExpected = new StructTestTestSubStruct();
+        $subStructExpected->blah = "sub_value";
+
+        $this->assertEquals($subStructExpected, $testObj->sub);
     }
 }
+
+class StructTestTestStruct extends Struct {
+    public static string $ignore;
+
+    public int $id;
+    public string $name;
+    public ?\DateTime $dt;
+    public $untyped;
+    public StructTestTestSubStruct $sub;
+};
+
+class StructTestTestSubStruct extends Struct {
+    public string $blah;
+};
