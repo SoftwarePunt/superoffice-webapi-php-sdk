@@ -81,8 +81,5 @@ class CollectionTest extends TestCase
 
 class CollectionTestDummyCollection extends Collection
 {
-    public function getPath(): string
-    {
-        return "/api/v1/Dummy";
-    }
+    public static string $PATH = "/api/v1/Dummy";
 }

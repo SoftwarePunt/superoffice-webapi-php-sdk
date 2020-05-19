@@ -7,10 +7,12 @@ use roydejong\SoWebApi\Structs\Struct;
 
 abstract class Collection
 {
+    protected string $path;
     protected Client $client;
 
-    public function __construct(Client $client)
+    final public function __construct(Client $client)
     {
+        $this->path = static::$PATH;
         $this->client = $client;
     }
 
@@ -34,7 +36,7 @@ abstract class Collection
      */
     public function executeQuery(CollectionQuery $query): array
     {
-        $urlPath = $this->getPath();
+        $urlPath = $this->path;
         $queryString = $query->getQueryString();
 
         if (!empty($queryString)) {
@@ -49,12 +51,4 @@ abstract class Collection
 
         return $parsed;
     }
-
-    /**
-     * Gets the relative path for this collection.
-     *
-     * @example /api/v1/entity
-     * @return string
-     */
-    public abstract function getPath(): string;
 }
