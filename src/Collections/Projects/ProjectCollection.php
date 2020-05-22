@@ -3,6 +3,7 @@
 namespace roydejong\SoWebApi\Collections\Projects;
 
 use roydejong\SoWebApi\Collections\Collection;
+use roydejong\SoWebApi\Structs\JsonStruct;
 use roydejong\SoWebApi\Structs\Projects\ProjectEntity;
 use roydejong\SoWebApi\WebApiException;
 
@@ -18,7 +19,7 @@ class ProjectCollection extends Collection
      *
      * @see https://community.superoffice.com/documentation/sdk/SO.NetServer.Web.Services/html/v1ProjectEntity_DefaultProjectEntity.htm
      *
-     * @return ProjectEntity
+     * @return ProjectEntity|JsonStruct
      * @throws WebApiException
      */
     public function getDefault(): ProjectEntity
@@ -34,7 +35,7 @@ class ProjectCollection extends Collection
      * @see https://community.superoffice.com/documentation/sdk/SO.NetServer.Web.Services/html/v1ProjectEntity_GetProjectEntity.htm
      *
      * @param int $id The id of the ProjectEntity to return.
-     * @return ProjectEntity
+     * @return ProjectEntity|JsonStruct
      * @throws WebApiException
      */
     public function getById(int $id): ProjectEntity
