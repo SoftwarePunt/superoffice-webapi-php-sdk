@@ -97,22 +97,26 @@ abstract class Struct
     public function fillFromArray(array $sourceArray): void
     {
         foreach ($this->propNames as $propName) {
+            // Hack for handling keys like "odata.metadata";
+            // when our local php property has a double underscore (__) treat it as a dot on the key name
+            $sourceKeyName = str_replace("__", ".", $propName);
+
             // Get value from source array; if it doesn't contain it, assume NULL
             $value = null;
 
-            if (isset($sourceArray[$propName])) {
-                $value = $sourceArray[$propName];
+            if (isset($sourceArray[$sourceKeyName])) {
+                $value = $sourceArray[$sourceKeyName];
             }
 
             // Get type information for the property
             $phpType = $this->propTypes[$propName];
 
             if ($phpType) {
-                // Typed property, convert if needed
-                $allowNull = ($phpType instanceof \ReflectionNamedType && $phpType->allowsNull());
-
                 // Check if the php type is a class, we may need to do conversion magic
                 $phpTypeStr = $phpType->getName();
+
+                // Determine whether this property is nullable
+                $allowNull = ($phpType instanceof \ReflectionNamedType && $phpType->allowsNull());
 
                 // Handle serialized objects, e.g. converting from array to struct or string to datetime
                 if (!is_object($value) && class_exists($phpTypeStr)) {

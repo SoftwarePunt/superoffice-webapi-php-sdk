@@ -1,0 +1,30 @@
+{
+  "odata.metadata":"https://sod2.superoffice.com:443/Cust12345/api/v1/Archive//$metadata",
+  "odata.nextLink":null,
+  "value":[
+    {
+      "PrimaryKey":"1",
+      "EntityName":"project",
+      "projectId":1,
+      "name":"Example: Internal project",
+      "text":"Example: Internal project",
+      "number":"10011",
+      "associateId":"RJ",
+      "type":"Internal",
+      "status":"In Progress",
+      "hasGuide":true,
+      "nextMilestone":"0001-01-01T00:00:00",
+      "endDate":"0001-01-01T00:00:00",
+      "imageThumbnail":"",
+      "activeErpLinks":false,
+      "registeredBy":"",
+      "registeredDate":"0001-01-01T00:00:00",
+      "hasInfoText":true,
+      "description":"Hi\r\n\r\nThis is an example project! \r\n\r\nYou will find the Project guide below. The guide is a workflow you can set up to help yourself and your collegues to move the project forward by suggesting the next activity. \r\n\r\nTry it out by clicking the blue links.",
+      "completed":false,
+      "icon":"Project",
+      "updatedBy":"RJ",
+      "updatedDate":"2020-04-22T15:51:25"
+    }
+  ]
+}
