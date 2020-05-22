@@ -2,6 +2,9 @@
 
 namespace roydejong\SoWebApi\Collections;
 
+use roydejong\SoWebApi\Structs\Struct;
+use roydejong\SoWebApi\WebApiException;
+
 class CollectionQuery
 {
     protected Collection $collection;
@@ -130,7 +133,8 @@ class CollectionQuery
      * Executes this query on the collection.
      * This is a helper function that simply calls $collection->executeQuery().
      *
-     * @return array
+     * @return array|Struct[]
+     * @throws WebApiException
      */
     public function execute(): array
     {

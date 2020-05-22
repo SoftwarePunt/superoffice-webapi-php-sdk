@@ -9,6 +9,28 @@ use roydejong\SoWebApiTests\Mock\MockClient;
 
 class ProjectCollectionTest extends TestCase
 {
+    public function testQueryAll()
+    {
+        /**
+         * @var $request RequestInterface
+         */
+        $request = null;
+
+        $client = new MockClient();
+        $client->setMockHandler(function (RequestInterface $_request) use (&$request) {
+            $request = $_request;
+
+            return new Response(200, [],
+                file_get_contents(__DIR__ . "/../../_samples/projects_all_response.json"));
+        });
+
+        $collection = $client->projects();
+        $allProjects = $collection->query()->execute();
+
+        $this->assertIsArray($allProjects, 'Query all should return array');
+        $this->assertCount(1, $allProjects, 'Query should return one result for sample response');
+    }
+
     public function testGetDefault()
     {
         /**

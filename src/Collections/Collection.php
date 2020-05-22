@@ -3,7 +3,9 @@
 namespace roydejong\SoWebApi\Collections;
 
 use roydejong\SoWebApi\Client;
+use roydejong\SoWebApi\Structs\OData\ODataPageResponse;
 use roydejong\SoWebApi\Structs\Struct;
+use roydejong\SoWebApi\WebApiException;
 
 abstract class Collection
 {
@@ -30,9 +32,8 @@ abstract class Collection
      * Executes a query on this collection.
      *
      * @param CollectionQuery $query
-     * @return Struct[]
-     *
-     * @throws
+     * @return array|Struct[]
+     * @throws WebApiException
      */
     public function executeQuery(CollectionQuery $query): array
     {
@@ -44,11 +45,11 @@ abstract class Collection
         }
 
         $response = $this->client->get($urlPath);
-        $body = (string)$response->getBody();
-        $parsed = json_decode($body, true);
 
-        // TODO Proper response processing into structs
-
-        return $parsed;
+        /**
+         * @var $pageObj ODataPageResponse
+         */
+        $pageObj = ODataPageResponse::fromResponse($response);
+        return $pageObj->value;
     }
 }

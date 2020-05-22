@@ -30,7 +30,9 @@ class CollectionTest extends TestCase
         $cl = new MockClient();
         $cl->setMockHandler(function (RequestInterface $_request) use (&$mockAssertionFired, &$request) {
             $request = $_request;
-            return new Response(200, [], "[]");
+
+            return new Response(200, [],
+                file_get_contents(__DIR__ . "/../_samples/projects_all_response.json"));
         });
 
         $dc = new CollectionTestDummyCollection($cl);
@@ -48,7 +50,7 @@ class CollectionTest extends TestCase
         }
 
         $this->assertIsArray($foundItems, "Query execute should always return an array");
-        $this->assertEmpty($foundItems, "Query execute should return an empty array in this scenario");
+        $this->assertCount(1, $foundItems, 'Query should return one result for sample response');
     }
 
     public function testQueryExecuteBlank()
@@ -61,7 +63,9 @@ class CollectionTest extends TestCase
         $cl = new MockClient();
         $cl->setMockHandler(function (RequestInterface $_request) use (&$mockAssertionFired, &$request) {
             $request = $_request;
-            return new Response(200, [], "[]");
+
+            return new Response(200, [],
+                file_get_contents(__DIR__ . "/../_samples/blank_odata_response.json"));
         });
 
         $dc = new CollectionTestDummyCollection($cl);
@@ -75,7 +79,7 @@ class CollectionTest extends TestCase
         }
 
         $this->assertIsArray($foundItems, "Query execute should always return an array");
-        $this->assertEmpty($foundItems, "Query execute should return an empty array in this scenario");
+        $this->assertCount(0, $foundItems, 'Query should return no results for blank response');
     }
 }
 
