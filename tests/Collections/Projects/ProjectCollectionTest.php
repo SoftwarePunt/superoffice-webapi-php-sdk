@@ -29,6 +29,7 @@ class ProjectCollectionTest extends TestCase
 
         $this->assertIsArray($allProjects, 'Query all should return array');
         $this->assertCount(1, $allProjects, 'Query should return one result for sample response');
+        $this->assertInstanceOf("roydejong\SoWebApi\Structs\Projects\ODataProjectItem", $allProjects[0]);
     }
 
     public function testGetDefault()

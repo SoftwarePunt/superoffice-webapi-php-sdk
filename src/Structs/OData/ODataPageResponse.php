@@ -2,6 +2,7 @@
 
 namespace roydejong\SoWebApi\Structs\OData;
 
+use roydejong\SoWebApi\Structs\Appointments\ODataAppointmentItem;
 use roydejong\SoWebApi\Structs\JsonStruct;
 use roydejong\SoWebApi\Structs\Projects\ODataProjectItem;
 use roydejong\SoWebApi\WebApiException;
@@ -26,6 +27,9 @@ class ODataPageResponse extends JsonStruct
             switch ($entityName) {
                 case "project":
                     $entity = new ODataProjectItem();
+                    break;
+                case "appointment":
+                    $entity = new ODataAppointmentItem();
                     break;
                 default:
                     throw new WebApiException("OData response contains unsupported entity name: {$entityName}");

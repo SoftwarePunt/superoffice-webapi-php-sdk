@@ -3,6 +3,7 @@
 namespace roydejong\SoWebApi;
 
 use Psr\Http\Message\ResponseInterface;
+use roydejong\SoWebApi\Collections\Appointments\AppointmentCollection;
 use roydejong\SoWebApi\Collections\Projects\ProjectCollection;
 use roydejong\SoWebApi\Structs\Meta\TenantStatus;
 use roydejong\SoWebApi\Structs\OAuth\TokenResponse;
@@ -264,4 +265,5 @@ class Client
     // Collections
 
     public function projects(): ProjectCollection { return new ProjectCollection($this); }
+    public function appointments(): AppointmentCollection { return new AppointmentCollection($this); }
 }

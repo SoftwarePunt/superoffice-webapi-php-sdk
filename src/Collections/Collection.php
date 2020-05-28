@@ -32,7 +32,7 @@ abstract class Collection
      * Executes a query on this collection.
      *
      * @param CollectionQuery $query
-     * @return array|Struct[]
+     * @return array|Struct[] Entities returned in the OData response.
      * @throws WebApiException
      */
     public function executeQuery(CollectionQuery $query): array
@@ -50,6 +50,6 @@ abstract class Collection
          * @var $pageObj ODataPageResponse
          */
         $pageObj = ODataPageResponse::fromResponse($response);
-        return $pageObj->value;
+        return $pageObj->getEntities();
     }
 }
