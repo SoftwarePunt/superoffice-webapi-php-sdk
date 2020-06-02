@@ -2,9 +2,9 @@
 
 namespace roydejong\SoWebApi\Structs\Projects;
 
-use roydejong\SoWebApi\Structs\JsonStruct;
+use roydejong\SoWebApi\Structs\UDefJsonStruct;
 
-class ProjectEntity extends JsonStruct
+class ProjectEntity extends UDefJsonStruct
 {
     public int $ProjectId;
     public string $Name;
