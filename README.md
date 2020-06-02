@@ -166,4 +166,8 @@ The `TenantStatus` object contains the following keys:
 ## Collections
 This library exposes different collections of API entities that you can interact with. Each collection can be accesed via the client instance, e.g. `$client->projects()`.
 
-### Listing entities
+|Name|Call|Wraps API|
+|----|----|---|
+|Projects|`$client->projects()`|`/api/v1/Project`|
+|Appointments|`$client->appointments()`|`/api/v1/Appointment`|
+|Documents|`$client->documents()`|`/api/v1/Document`|

@@ -266,4 +266,5 @@ class Client
 
     public function projects(): ProjectCollection { return new ProjectCollection($this); }
     public function appointments(): AppointmentCollection { return new AppointmentCollection($this); }
+    public function documents(): AppointmentCollection { return new AppointmentCollection($this); }
 }
