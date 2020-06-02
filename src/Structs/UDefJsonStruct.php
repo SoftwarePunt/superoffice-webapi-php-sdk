@@ -25,10 +25,27 @@ abstract class UDefJsonStruct extends JsonStruct
     }
 
     /**
+     * Gets an integer value from the UserDefinedFields for this struct.
+     *
+     * @param string $progId The "Prog ID" (programmatic id) configured for this UDef field in SuperOffice.
+     * @return int The integer value, or 0 if parsing fails or the key is invalid.
+     */
+    public function getUserInt(string $progId): int
+    {
+        $str = $this->getUserString($progId);
+
+        if ($str === null) {
+            return 0;
+        }
+
+        return intval($str);
+    }
+
+    /**
      * Gets a boolean value from the UserDefinedFields for this struct.
      *
      * @param string $progId The "Prog ID" (programmatic id) configured for this UDef field in SuperOffice.
-     * @return string|null The boolean value.
+     * @return bool The boolean value.
      */
     public function getUserBool(string $progId): bool
     {
@@ -42,6 +59,12 @@ abstract class UDefJsonStruct extends JsonStruct
         return $value === "true" || $value === "1";
     }
 
+    /**
+     * Gets a DateTime value from the UserDefinedFields for this struct.
+     *
+     * @param string $progId The "Prog ID" (programmatic id) configured for this UDef field in SuperOffice.
+     * @return \DateTime|null The DateTime value, or NULL if parsing fails.
+     */
     public function getUserDate(string $progId): ?\DateTime
     {
         $str = $this->getUserString($progId);

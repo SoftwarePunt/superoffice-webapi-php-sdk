@@ -22,6 +22,24 @@ class UDefJsonStructTest extends TestCase
         $this->assertEquals(null, $struct->getUserString("SuperOffice:INVALID"));
     }
 
+    public function testGetUserInt()
+    {
+        $struct = new UDefJsonStructTestStruct();
+
+        $struct->UserDefinedFields = [
+            "SuperOffice:1" => "123",
+            "SuperOffice:2" => "123.45",
+            "SuperOffice:3" => "0",
+            "SuperOffice:4" => "invalid"
+        ];
+
+        $this->assertSame(0, $struct->getUserInt("invalid_key"));
+        $this->assertSame(123, $struct->getUserInt("SuperOffice:1"));
+        $this->assertSame(123, $struct->getUserInt("SuperOffice:2"));
+        $this->assertSame(0, $struct->getUserInt("SuperOffice:3"));
+        $this->assertSame(0, $struct->getUserInt("SuperOffice:4"));
+    }
+
     public function testGetUserBool()
     {
         $struct = new UDefJsonStructTestStruct();
