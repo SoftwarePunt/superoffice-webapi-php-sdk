@@ -261,6 +261,38 @@ class ClientTest extends TestCase
             $this->markTestIncomplete('Mock request handler did not fire');
         }
     }
+    public function testGetWithOptions()
+    {
+        /**
+         * @var $request RequestInterface
+         */
+        $request = null;
+
+        $client = new MockClient();
+        $client->setMockHandler(function (RequestInterface $_request) use (&$mockAssertionFired, &$request) {
+            $request = $_request;
+            return new Response(200);
+        });
+
+        $client->setAccessToken("ABC");
+
+        $response = $client->get('/bla', [
+            'headers' => [
+                'Accept' => 'application/vnd.ms-excel'
+            ]
+        ]);
+
+        $this->assertInstanceOf("Psr\Http\Message\ResponseInterface", $response);
+
+        if ($request) {
+            $this->assertNotEmpty($request->getHeader("Authorization"),
+                "Authorization header should still be set, overrides should not remove it");
+            $this->assertSame("application/vnd.ms-excel", $request->getHeader("Accept")[0],
+                "Accept header should be set to override value");
+        } else {
+            $this->markTestIncomplete('Mock request handler did not fire');
+        }
+    }
 
     public function testGetWithResponseCodeError()
     {

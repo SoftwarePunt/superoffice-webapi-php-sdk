@@ -106,12 +106,13 @@ class Client
      *
      * @param string $method Request method (e.g. "GET" or "POST").
      * @param string $url Full request URL.
-     * @param string|null $body
+     * @param string|null $body Request body (for POST, PATCH, PUT, etc).
+     * @param array $options Custom request options / overrides.
      * @return ResponseInterface
      *
      * @throws WebApiException
      */
-    protected function __request(string $method, string $url, string $body = null): ResponseInterface
+    protected function __request(string $method, string $url, string $body = null, array $options = []): ResponseInterface
     {
         try {
             $headers = [
@@ -124,10 +125,8 @@ class Client
                 $headers['Authorization'] = "Bearer {$this->accessToken}";
             }
 
-            $response = $this->httpClient->request($method, $url, [
-                'body' => $body,
-                'headers' => $headers
-            ]);
+            $finalOptions = array_merge_recursive($options, ['body' => $body, 'headers' => $headers]);
+            $response = $this->httpClient->request($method, $url, $finalOptions);
 
             if ($response->getStatusCode() !== 200) {
                 throw new WebApiException("Bad response: Expected 200 OK, got {$response->getStatusCode()}");
@@ -253,12 +252,13 @@ class Client
      * Performs a HTTP GET request on the WebAPI.
      *
      * @param string $path The relative path to query, e.g. "/api/v1/Project/default".
+     * @param array $options Custom request options / overrides.
      * @return ResponseInterface
      */
-    public function get(string $path): ResponseInterface
+    public function get(string $path, array $options = []): ResponseInterface
     {
         $url = $this->getBaseUrl() . $path;
-        return $this->__request("GET", $url);
+        return $this->__request("GET", $url, null, $options);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
