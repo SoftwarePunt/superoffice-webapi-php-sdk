@@ -334,4 +334,10 @@ class ClientTest extends TestCase
         $this->assertInstanceOf("roydejong\SoWebApi\Collections\Appointments\AppointmentCollection",
             (new Client(new Config()))->appointments());
     }
+
+    public function testDocuments()
+    {
+        $this->assertInstanceOf("roydejong\SoWebApi\Collections\Appointments\DocumentCollection",
+            (new Client(new Config()))->documents());
+    }
 }
