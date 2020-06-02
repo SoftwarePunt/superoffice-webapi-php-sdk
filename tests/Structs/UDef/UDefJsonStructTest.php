@@ -1,9 +1,9 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Structs;
+namespace roydejong\SoWebApiTests\Structs\UDef;
 
 use PHPUnit\Framework\TestCase;
-use roydejong\SoWebApi\Structs\UDefJsonStruct;
+use roydejong\SoWebApi\Structs\UDef\UDefJsonStruct;
 
 class UDefJsonStructTest extends TestCase
 {
@@ -78,6 +78,31 @@ class UDefJsonStructTest extends TestCase
         $this->assertSame("2015-04-03 11:22:33", $struct->getUserDate("SuperOffice:2")->format('Y-m-d H:i:s'));
         $this->assertNull($struct->getUserDate("SuperOffice:3"));
         $this->assertNull($struct->getUserDate("SuperOffice:4"));
+    }
+
+    public function testGetUserListValue()
+    {
+        $struct = new UDefJsonStructTestStruct();
+
+        $struct->UserDefinedFields = [
+            "function-1" => "[I:11]",
+            "function-1:DisplayText" => "func name",
+            "function-1:DisplayTooltip" => "the tip",
+
+            "function-2" => "not-a-list-ref",
+
+            "function-3" => "[I:INVALID]"
+        ];
+
+        $function1 = $struct->getUserListValue("function-1");
+        $this->assertInstanceOf("roydejong\SoWebApi\Structs\UDef\UDefListValue", $function1);
+        $this->assertSame(11, $function1->Id);
+        $this->assertSame("func name", $function1->DisplayText);
+        $this->assertSame("the tip", $function1->DisplayTooltip);
+
+        $this->assertNull($struct->getUserListValue("function-2"));
+
+        $this->assertNull($struct->getUserListValue("function-3"));
     }
 }
 

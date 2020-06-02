@@ -2,7 +2,7 @@
 
 namespace roydejong\SoWebApi\Structs\Projects;
 
-use roydejong\SoWebApi\Structs\UDefJsonStruct;
+use roydejong\SoWebApi\Structs\UDef\UDefJsonStruct;
 
 class ProjectEntity extends UDefJsonStruct
 {

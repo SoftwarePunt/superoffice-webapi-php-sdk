@@ -1,6 +1,8 @@
 <?php
 
-namespace roydejong\SoWebApi\Structs;
+namespace roydejong\SoWebApi\Structs\UDef;
+
+use roydejong\SoWebApi\Structs\JsonStruct;
 
 /**
  * A JsonStruct with UserDefinedFields.
@@ -90,5 +92,40 @@ abstract class UDefJsonStruct extends JsonStruct
         } catch (\Exception $ex) { }
 
         return $parsed;
+    }
+
+    /**
+     * Gets a user-defined list value from the UserDefinedFields for this struct.
+     *
+     * @param string $progId The "Prog ID" (programmatic id) configured for this UDef field in SuperOffice.
+     * @return UDefListValue|null The user-defined list value, or NULL if parsing fails.
+     */
+    public function getUserListValue(string $progId): ?UDefListValue
+    {
+        // A linked list value has three keys in the $UserDefinedFields array
+        $strId = $this->getUserString($progId);
+        $strDisplayText = $this->getUserString("{$progId}:DisplayText") ?? "";
+        $strDisplayTooltip = $this->getUserString("{$progId}:DisplayTooltip") ?? "";
+
+        if (empty($strId) || strpos($strId, "[I:") !== 0) {
+            // The ID reference should look like: [I:11]
+            return null;
+        }
+
+        // Parse ID reference
+        $strId = substr($strId, strlen("[I:"));
+        $strId = substr($strId, 0, strlen($strId) - strlen("]"));
+        $idValue = intval($strId);
+
+        if ($idValue <= 0) {
+            // Could not extract a valid ID
+            return null;
+        }
+
+        $returnObj = new UDefListValue();
+        $returnObj->Id = $strId;
+        $returnObj->DisplayText = $strDisplayText;
+        $returnObj->DisplayTooltip = $strDisplayTooltip;
+        return $returnObj;
     }
 }
