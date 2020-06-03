@@ -21,7 +21,6 @@ class ProjectEntity extends UDefJsonStruct
     public bool $HasImage;
     public string $ImageDescription;
     public int $ActiveStatusMonitorId;
-    public array $Links;
     public int $ActiveLinks;
     public bool $Completed;
     public \DateTime $NextMilestoneDate;
@@ -35,4 +34,28 @@ class ProjectEntity extends UDefJsonStruct
     public \DateTime $PublishTo;
     public \DateTime $PublishFrom;
     public bool $IsPublished;
+
+    /**
+     * @var ProjectLink[]
+     */
+    public array $Links;
+
+    /**
+     * @inheritDoc
+     */
+    public function assignProperty(string $propName, $value): void
+    {
+        if ($propName === "Links" && is_array($value)) {
+            $this->Links = [];
+
+            foreach ($value as $linkEntry) {
+                $link = new ProjectLink();
+                $link->fillFromArray($linkEntry);
+
+                $this->Links[] = $link;
+            }
+        } else {
+            parent::assignProperty($propName, $value);
+        }
+    }
 }

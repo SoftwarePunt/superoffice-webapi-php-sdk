@@ -143,15 +143,26 @@ abstract class Struct
 
                 // Finally, apply property value
                 if ($value !== null || $allowNull) {
-                    $this->$propName = $value;
+                    $this->assignProperty($propName, $value);
                 } else {
                     // Missing key or null value, but property type is not nullable; ensure it's unset instead
                     unset($this->$propName);
                 }
             } else {
                 // Untyped property, just set it
-                $this->$propName = $value;
+                $this->assignProperty($propName, $value);
             }
         }
+    }
+
+    /**
+     * Sets a property value on this struct.
+     *
+     * @param string $propName
+     * @param mixed $value
+     */
+    protected function assignProperty(string $propName, $value): void
+    {
+        $this->$propName = $value;
     }
 }

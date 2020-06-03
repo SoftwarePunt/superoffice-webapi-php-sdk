@@ -188,7 +188,191 @@
       "FieldType":"System.Boolean",
       "FieldLength":2
     },
-    "UserDefinedFields.SuperOffice:1":{
+    "UserDefinedFields.machine_type":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.brand_name_machine":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.main_category":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.function-1":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.function-2":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.function-3":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.function-4":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.display_on_cazandercom":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.from_date_on_cazandercom":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.expiry_date_on_cazandercom":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.display_on_historical_website":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.display_homepage":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.display_newsletter":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.miscellaneousfactory_identification":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.year_of_manufacture":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.display_yom":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.can_height_min":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.can_height_max":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.can_end_diameter_min":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.can_end_diameter_max":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.can_or_end_shape":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.speed_upto_eenh":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.stroke_press":{
+      "FieldRight":{
+        "Mask":"Update",
+        "Reason":""
+      },
+      "FieldType":"System.String",
+      "FieldLength":-1
+    },
+    "UserDefinedFields.tonnage_press":{
       "FieldRight":{
         "Mask":"Update",
         "Reason":""
@@ -608,7 +792,7 @@
 
   ],
   "CreatedDate":"0001-01-01T00:00:00",
-  "UpdatedDate":"2020-04-22T15:51:25",
+  "UpdatedDate":"2020-06-03T17:46:13",
   "Description":"Hi\r\n\r\nThis is an example project! \r\n\r\nYou will find the Project guide below. The guide is a workflow you can set up to help yourself and your collegues to move the project forward by suggesting the next activity. \r\n\r\nTry it out by clicking the blue links.",
   "Postit":"",
   "CreatedBy":null,
@@ -699,18 +883,59 @@
   "ImageDescription":"",
   "ActiveStatusMonitorId":0,
   "Links":[
+    {
+      "TableRight":null,
+      "FieldProperties":{
 
+      },
+      "EntityName":"url",
+      "Id":2,
+      "Description":"",
+      "ExtraInfo":"https://www.youtube.com/watch?v=KaOC9danxNo",
+      "LinkId":0
+    }
   ],
-  "ActiveLinks":0,
-  "Completed":false,
+  "ActiveLinks":1,
+  "Completed":true,
   "NextMilestoneDate":"0001-01-01T00:00:00",
   "NmdAppointmentId":0,
   "EndDate":"0001-01-01T00:00:00",
   "ActiveErpLinks":0,
   "UserDefinedFields":{
-    "SuperOffice:1":"[I:8]",
-    "SuperOffice:1:DisplayText":"Blah",
-    "SuperOffice:1:DisplayTooltip":"123"
+    "machine_type":"machine_type",
+    "brand_name_machine":"brand",
+    "main_category":"[I:14]",
+    "main_category:DisplayText":"2PC and 3PC can making",
+    "main_category:DisplayTooltip":"Canmaking",
+    "function-1":"[I:11]",
+    "function-1:DisplayText":"beader",
+    "function-1:DisplayTooltip":"",
+    "function-2":"[I:13]",
+    "function-2:DisplayText":"curler",
+    "function-2:DisplayTooltip":"",
+    "function-3":"[I:10]",
+    "function-3:DisplayText":"flanger",
+    "function-3:DisplayTooltip":"",
+    "function-4":"[I:12]",
+    "function-4:DisplayText":"seamer",
+    "function-4:DisplayTooltip":"",
+    "display_on_cazandercom":"True",
+    "from_date_on_cazandercom":"[D:06/01/2020]",
+    "expiry_date_on_cazandercom":"[D:11/30/2030]",
+    "display_on_historical_website":"True",
+    "display_homepage":"True",
+    "display_newsletter":"True",
+    "miscellaneousfactory_identification":"misc",
+    "year_of_manufacture":"year",
+    "display_yom":"True",
+    "can_height_min":"123",
+    "can_height_max":"123",
+    "can_end_diameter_min":"123",
+    "can_end_diameter_max":"123",
+    "can_or_end_shape":"123",
+    "speed_upto_eenh":"123",
+    "stroke_press":"123",
+    "tonnage_press":"123"
   },
   "ExtraFields":{
 
