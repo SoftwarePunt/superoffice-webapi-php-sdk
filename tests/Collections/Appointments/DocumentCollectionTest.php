@@ -32,7 +32,7 @@ class DocumentCollectionTest extends TestCase
         $this->assertInstanceOf("roydejong\SoWebApi\Structs\Appointments\ODataDocumentItem", $allDocuments[0]);
     }
 
-    public function testGetContentStringById()
+    public function testGetContentById()
     {
         /**
          * @var $request RequestInterface
@@ -50,7 +50,7 @@ class DocumentCollectionTest extends TestCase
         $response = $collection->getContentById(123);
 
         $this->assertStringEndsWith("/api/v1/Document/123/Content", (string)$request->getUri());
-        $this->assertSame("*", $request->getHeader('Accept')[0]);
+        $this->assertSame("*/*", $request->getHeader('Accept')[0]);
 
         $this->assertSame("image/png", $response->getContentType());
         $this->assertSame("oh hi", $response->getContentAsString());

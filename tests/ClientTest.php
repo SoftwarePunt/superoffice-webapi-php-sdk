@@ -277,6 +277,7 @@ class ClientTest extends TestCase
         $client->setAccessToken("ABC");
 
         $response = $client->get('/bla', [
+            'body' => 'hi',
             'headers' => [
                 'Accept' => 'application/vnd.ms-excel'
             ]
@@ -285,6 +286,7 @@ class ClientTest extends TestCase
         $this->assertInstanceOf("Psr\Http\Message\ResponseInterface", $response);
 
         if ($request) {
+            $this->assertSame("hi", (string)$request->getBody());
             $this->assertNotEmpty($request->getHeader("Authorization"),
                 "Authorization header should still be set, overrides should not remove it");
             $this->assertSame("application/vnd.ms-excel", $request->getHeader("Accept")[0],

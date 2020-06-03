@@ -126,7 +126,18 @@ class Client
                 $headers['Authorization'] = "Bearer {$this->accessToken}";
             }
 
-            $finalOptions = array_merge_recursive($options, ['body' => $body, 'headers' => $headers]);
+            $finalOptions = array_merge($options, ['body' => $body, 'headers' => $headers]);
+
+            foreach ($options as $optionKey => $optionValue) {
+                if ($optionKey === "headers") {
+                    foreach ($optionValue as $headerKey => $headerValue) {
+                        $finalOptions['headers'][$headerKey] = $headerValue;
+                    }
+                } else {
+                    $finalOptions[$optionKey] = $optionValue;
+                }
+            }
+
             $response = $this->httpClient->request($method, $url, $finalOptions);
 
             if ($response->getStatusCode() !== 200) {

@@ -19,7 +19,7 @@ class DocumentCollection extends Collection
     {
         $response = $this->client->get(self::$PATH . "/{$documentId}/Content", [
             'headers' => [
-                'Accept' => "*"
+                'Accept' => "*/*"
             ]
         ]);
         return new BinaryResponse($response);
