@@ -3,23 +3,25 @@
 namespace roydejong\SoWebApi\Collections\Appointments;
 
 use roydejong\SoWebApi\Collections\Collection;
+use roydejong\SoWebApi\Http\BinaryResponse;
 
 class DocumentCollection extends Collection
 {
     public static string $PATH = "/api/v1/Document";
 
     /**
-     * Streams the document content into a string value.
+     * Downloads and returns the document content.
      *
      * @param int $documentId
-     * @return string
+     * @return BinaryResponse
      */
-    public function getContentStringById(int $documentId): string
+    public function getContentById(int $documentId): BinaryResponse
     {
-        return $this->client->get(self::$PATH . "/{$documentId}/Content", [
+        $response = $this->client->get(self::$PATH . "/{$documentId}/Content", [
             'headers' => [
                 'Accept' => "*"
             ]
-        ])->getBody();
+        ]);
+        return new BinaryResponse($response);
     }
 }

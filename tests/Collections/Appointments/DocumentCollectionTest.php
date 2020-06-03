@@ -43,14 +43,17 @@ class DocumentCollectionTest extends TestCase
         $client->setMockHandler(function (RequestInterface $_request) use (&$request) {
             $request = $_request;
 
-            return new Response(200, [], "oh hi");
+            return new Response(200, ['Content-Type' => 'image/png'], "oh hi");
         });
 
         $collection = $client->documents();
-        $raw = $collection->getContentStringById(123);
+        $response = $collection->getContentById(123);
 
-        $this->assertSame("oh hi", $raw);
         $this->assertStringEndsWith("/api/v1/Document/123/Content", (string)$request->getUri());
         $this->assertSame("*", $request->getHeader('Accept')[0]);
+
+        $this->assertSame("image/png", $response->getContentType());
+        $this->assertSame("oh hi", $response->getContentAsString());
+        $this->assertInstanceOf("Psr\Http\Message\StreamInterface", $response->getContentAsStream());
     }
 }
