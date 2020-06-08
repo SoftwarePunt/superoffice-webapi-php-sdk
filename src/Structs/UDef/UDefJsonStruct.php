@@ -93,7 +93,7 @@ abstract class UDefJsonStruct extends JsonStruct
                 // SuperOffice date format
                 // example: [D:01/01/0001]
                 $parsed = \DateTime::createFromFormat(
-                    "\[\D:d/m/Y]",
+                    "\[\D:m/d/Y]",
                     $str
                 );
             } else {

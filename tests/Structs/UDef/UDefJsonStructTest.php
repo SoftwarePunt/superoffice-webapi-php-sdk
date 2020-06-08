@@ -67,14 +67,14 @@ class UDefJsonStructTest extends TestCase
         $struct = new UDefJsonStructTestStruct();
 
         $struct->UserDefinedFields = [
-            "SuperOffice:1" => "[D:01/02/2011]",
+            "SuperOffice:1" => "[D:11/30/2011]",
             "SuperOffice:2" => "2015-04-03 11:22:33",
             "SuperOffice:3" => "",
             "SuperOffice:4" => "invalid date/time",
         ];
 
         $this->assertNull($struct->getUserDate("invalid_key"));
-        $this->assertSame("2011-02-01", $struct->getUserDate("SuperOffice:1")->format('Y-m-d'));
+        $this->assertSame("2011-11-30", $struct->getUserDate("SuperOffice:1")->format('Y-m-d'));
         $this->assertSame("2015-04-03 11:22:33", $struct->getUserDate("SuperOffice:2")->format('Y-m-d H:i:s'));
         $this->assertNull($struct->getUserDate("SuperOffice:3"));
         $this->assertNull($struct->getUserDate("SuperOffice:4"));
