@@ -104,6 +104,26 @@ class UDefJsonStructTest extends TestCase
 
         $this->assertNull($struct->getUserListValue("function-3"));
     }
+
+    public function testGetStringWithListResolve()
+    {
+        $struct = new UDefJsonStructTestStruct();
+
+        $struct->UserDefinedFields = [
+            "function-1" => "[I:11]",
+            "function-1:DisplayText" => "func name",
+            "function-1:DisplayTooltip" => "the tip",
+
+            "function-2" => "not-a-list-ref",
+
+            "function-3" => "[I:INVALID]"
+        ];
+
+        $this->assertSame(null, $struct->getUserString("invalid-key", true));
+        $this->assertSame("func name", $struct->getUserString("function-1", true));
+        $this->assertSame("not-a-list-ref", $struct->getUserString("function-2", true));
+        $this->assertSame("[I:INVALID]", $struct->getUserString("function-3", true));
+    }
 }
 
 class UDefJsonStructTestStruct extends UDefJsonStruct { };

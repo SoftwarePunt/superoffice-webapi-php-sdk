@@ -15,15 +15,26 @@ abstract class UDefJsonStruct extends JsonStruct
      * Gets a string value from the UserDefinedFields for this struct.
      *
      * @param string $progId The "Prog ID" (programmatic id) configured for this UDef field in SuperOffice.
+     * @param bool $resolveListItems If true, this will detect list items and return their display text.
      * @return string|null The string value. NULL is returned if the key does not exist.
      */
-    public function getUserString(string $progId): ?string
+    public function getUserString(string $progId, bool $resolveListItems = true): ?string
     {
         if (!isset($this->UserDefinedFields[$progId]) || $this->UserDefinedFields[$progId] === null) {
             return null;
         }
 
-        return strval($this->UserDefinedFields[$progId]);
+        $strResult = strval($this->UserDefinedFields[$progId]);
+
+        if ($strResult && $resolveListItems && strpos($strResult, "[I:") === 0) {
+            // Looks like this is a list item, try to resolve its :DisplayText instead
+            $displayText = $this->getUserString("{$progId}:DisplayText", false);
+            if ($displayText) {
+                return $displayText;
+            }
+        }
+
+        return $strResult;
     }
 
     /**
@@ -103,9 +114,9 @@ abstract class UDefJsonStruct extends JsonStruct
     public function getUserListValue(string $progId): ?UDefListValue
     {
         // A linked list value has three keys in the $UserDefinedFields array
-        $strId = $this->getUserString($progId);
-        $strDisplayText = $this->getUserString("{$progId}:DisplayText") ?? "";
-        $strDisplayTooltip = $this->getUserString("{$progId}:DisplayTooltip") ?? "";
+        $strId = $this->getUserString($progId, false);
+        $strDisplayText = $this->getUserString("{$progId}:DisplayText", false) ?? "";
+        $strDisplayTooltip = $this->getUserString("{$progId}:DisplayTooltip", false) ?? "";
 
         if (empty($strId) || strpos($strId, "[I:") !== 0) {
             // The ID reference should look like: [I:11]
