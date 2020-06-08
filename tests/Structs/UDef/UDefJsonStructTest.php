@@ -115,14 +115,16 @@ class UDefJsonStructTest extends TestCase
             "function-1:DisplayTooltip" => "the tip",
 
             "function-2" => "not-a-list-ref",
+            "function-2:DisplayText" => "ignored",
 
-            "function-3" => "[I:INVALID]"
+            "function-3" => "[I:INVALID]",
+            "function-3:DisplayText" => "",
         ];
 
         $this->assertSame(null, $struct->getUserString("invalid-key", true));
         $this->assertSame("func name", $struct->getUserString("function-1", true));
         $this->assertSame("not-a-list-ref", $struct->getUserString("function-2", true));
-        $this->assertSame("[I:INVALID]", $struct->getUserString("function-3", true));
+        $this->assertSame("", $struct->getUserString("function-3", true));
     }
 }
 

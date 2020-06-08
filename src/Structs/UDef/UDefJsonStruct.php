@@ -28,9 +28,10 @@ abstract class UDefJsonStruct extends JsonStruct
 
         if ($strResult && $resolveListItems && strpos($strResult, "[I:") === 0) {
             // Looks like this is a list item, try to resolve its :DisplayText instead
-            $displayText = $this->getUserString("{$progId}:DisplayText", false);
-            if ($displayText) {
-                return $displayText;
+            $displayTextKey = "{$progId}:DisplayText";
+
+            if (isset($this->UserDefinedFields[$displayTextKey])) {
+                return strval($this->UserDefinedFields[$displayTextKey] ?? '');
             }
         }
 
