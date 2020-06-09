@@ -30,7 +30,8 @@ class UDefJsonStructTest extends TestCase
             "SuperOffice:1" => "123",
             "SuperOffice:2" => "123.45",
             "SuperOffice:3" => "0",
-            "SuperOffice:4" => "invalid"
+            "SuperOffice:4" => "invalid",
+            "SuperOffice:5" => "[I:1234]"
         ];
 
         $this->assertSame(0, $struct->getUserInt("invalid_key"));
@@ -38,6 +39,7 @@ class UDefJsonStructTest extends TestCase
         $this->assertSame(123, $struct->getUserInt("SuperOffice:2"));
         $this->assertSame(0, $struct->getUserInt("SuperOffice:3"));
         $this->assertSame(0, $struct->getUserInt("SuperOffice:4"));
+        $this->assertSame(1234, $struct->getUserInt("SuperOffice:5"));
     }
 
     public function testGetUserBool()

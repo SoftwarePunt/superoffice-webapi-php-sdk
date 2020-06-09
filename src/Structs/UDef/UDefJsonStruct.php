@@ -52,7 +52,13 @@ abstract class UDefJsonStruct extends JsonStruct
             return 0;
         }
 
-        return intval($str);
+        if (strpos($str, "[I:") === 0) {
+            $str = substr($str, strlen("[I:"));
+            $str = substr($str, 0, strlen($str) - strlen("]"));
+            return intval($str);
+        } else {
+            return intval($str);
+        }
     }
 
     /**
