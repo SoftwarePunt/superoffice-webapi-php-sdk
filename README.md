@@ -59,7 +59,6 @@ Available configuration options:
 |`clientId`|`string`|*For OAuth*|Client ID (Application ID).|
 |`clientSecret`|`string`|*For OAuth*|Client secret (Application Token).|
 |`redirectUri`|`string`|*For OAuth*|OAuth callback URL. Must exactly match a redirect URI registered with SuperOffice.|
-|`privateKey`|`string`|No|Private key for system user token signing (`<RSAKeyValue>` block).|
 
 ## Authentication (OAuth / SuperId)
 If you are targeting Online CRM, you must use OAuth to aquire a `BEARER` access token for the web api.
@@ -116,6 +115,22 @@ $tokenResponse = $client->refreshOAuthAccessToken($tokenResponse->refresh_token)
 ```
 
 This response will be a `TokenResponse` object, but with `refresh_token` set to `null`.
+
+### Verify JWT 
+To comply with SuperOffice requirements, your application should verify the JWT from each token response (so when requesting a new token or refreshing a token):
+
+```php
+<?php
+
+// ... request or refresh access token to get a $tokenResponse
+$jwtIsValid = $tokenResponse->validateAndVerifyJwt($config);
+
+if (!$jwtIsValid) {
+    // ... something is fishy, bail
+}
+```
+
+This will validate the token (valid issuer, not expired) and verify it against the appropriate SuperOffice certificate for the configured environment.
 
 ### Configure access token
 You must explicitly set the access token you want to use with the client before performing any requests:

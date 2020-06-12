@@ -2,6 +2,8 @@
 
 namespace roydejong\SoWebApi\Structs\OAuth;
 
+use roydejong\SoWebApi\Config;
+use roydejong\SoWebApi\Security\JwtValidator;
 use roydejong\SoWebApi\Structs\JsonStruct;
 
 class TokenResponse extends JsonStruct
@@ -38,4 +40,20 @@ class TokenResponse extends JsonStruct
      * This can be used to verify that the tokens came from the real SuperId server.
      */
     public string $id_token;
+
+    /**
+     * Validates and verifies the "id_token" JWT.
+     *
+     * @param Config $config Config data to use for validation.
+     * @return bool Returns TRUE if validation and verification passed, otherwise FALSE.
+     */
+    public function validateAndVerifyJwt(Config $config): bool
+    {
+        try {
+            $validator = new JwtValidator($config);
+            return $validator->validateAndVerifyJwt($this->id_token);
+        } catch (\Exception $ex) {
+            return false;
+        }
+    }
 }

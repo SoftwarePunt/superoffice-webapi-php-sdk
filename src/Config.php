@@ -29,11 +29,6 @@ class Config
     public string $clientSecret;
 
     /**
-     * Private key for system user token signing (<RSAKeyValue> block).
-     */
-    public string $privateKey;
-
-    /**
      * The redirect URL used for OAuth callbacks / authentication responses.
      * It must exactly match one of the redirecturis registered with SuperOffice.
      */
