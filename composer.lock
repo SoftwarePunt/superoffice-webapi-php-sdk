@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c78792241fb88369f2bfbc2cacbb8af9",
+    "content-hash": "46139cdf7ad74201d08f3abbccb6d8fe",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -349,6 +349,54 @@
             ],
             "description": "A polyfill for getallheaders.",
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "spatie/guzzle-rate-limiter-middleware",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/guzzle-rate-limiter-middleware.git",
+                "reference": "d7facc9d3adc2b684e52595e679e41f2c9031d67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/guzzle-rate-limiter-middleware/zipball/d7facc9d3adc2b684e52595e679e41f2c9031d67",
+                "reference": "d7facc9d3adc2b684e52595e679e41f2c9031d67",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.0",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\GuzzleRateLimiterMiddleware\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastiandedeyne@gmail.com",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A rate limiter for Guzzle",
+            "homepage": "https://github.com/spatie/guzzle-rate-limiter-middleware",
+            "keywords": [
+                "guzzle-rate-limiter-middleware",
+                "spatie"
+            ],
+            "time": "2020-01-09T07:48:28+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",

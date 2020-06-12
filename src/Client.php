@@ -2,12 +2,14 @@
 
 namespace roydejong\SoWebApi;
 
+use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
 use roydejong\SoWebApi\Collections\Appointments\AppointmentCollection;
 use roydejong\SoWebApi\Collections\Appointments\DocumentCollection;
 use roydejong\SoWebApi\Collections\Projects\ProjectCollection;
 use roydejong\SoWebApi\Structs\Meta\TenantStatus;
 use roydejong\SoWebApi\Structs\OAuth\TokenResponse;
+use Spatie\GuzzleRateLimiterMiddleware\RateLimiterMiddleware;
 
 /**
  * Base client for the SuperOffice WebAPI.
@@ -35,7 +37,14 @@ class Client
         $this->config = $config;
         $this->setAccessToken($accessToken);
         $this->baseUrl = null;
-        $this->httpClient = new \GuzzleHttp\Client();
+
+        // Create HTTP client with rate limiter (SO specs: No more than 10 api calls per second)
+        $stack = HandlerStack::create();
+        $stack->push(RateLimiterMiddleware::perSecond(10));
+
+        $this->httpClient = new \GuzzleHttp\Client([
+            'handler' => $stack
+        ]);
     }
 
     /**
