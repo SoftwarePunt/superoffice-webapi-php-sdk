@@ -10,6 +10,7 @@ class CollectionQuery
     protected Collection $collection;
 
     protected array $select;
+    protected string $filter;
     protected int $limit;
     protected int $offset;
 
@@ -18,6 +19,7 @@ class CollectionQuery
         $this->collection = $collection;
 
         $this->select = [];
+        $this->filter = "";
         $this->limit = 0;
         $this->offset = 0;
     }
@@ -28,7 +30,7 @@ class CollectionQuery
      * @param string|string[] $columns Max amount of records to return.
      * @return $this
      */
-    public function select(string ...$columns): CollectionQuery
+    public function select(string ...$columns): self
     {
         $columnCount = count($columns);
 
@@ -55,12 +57,41 @@ class CollectionQuery
     }
 
     /**
+     * Adds a filter condition with an "and" clause.
+     *
+     * @param string $columnName
+     * @param bool|int|float|string|array $expectedValue
+     * @return $this
+     */
+    public function andWhereEquals(string $columnName, $expectedValue): self
+    {
+        if (!empty($this->filter)) {
+            $this->filter .= " and ";
+        }
+
+        if (is_bool($expectedValue)) {
+            $expectedValue = $expectedValue ? 1 : 0;
+        }
+
+        if (is_integer($expectedValue) || is_float($expectedValue)) {
+            $this->filter .= "{$columnName} eq {$expectedValue}";
+        } else if (is_string($expectedValue)) {
+            $this->filter .= "{$columnName} eq '{$expectedValue}'";
+        } else if (is_array($expectedValue)) {
+            $oneOfList = "'" . implode("','", $expectedValue) . "'";
+            $this->filter .= "{$columnName} oneOf({$oneOfList})";
+        }
+
+        return $this;
+    }
+
+    /**
      * Set query limit ($top).
      *
      * @param int $limit Max amount of records to return.
      * @return $this
      */
-    public function limit(int $limit): CollectionQuery
+    public function limit(int $limit): self
     {
         $this->limit = $limit;
         return $this;
@@ -72,7 +103,7 @@ class CollectionQuery
      * @param int $offset Amount of records to skip.
      * @return $this
      */
-    public function offset(int $offset): CollectionQuery
+    public function offset(int $offset): self
     {
         $this->offset = $offset;
         return $this;
@@ -91,6 +122,10 @@ class CollectionQuery
         //                    Can also use aggregation functions and modifiers: "Count(category):Footer"
         if (!empty($this->select)) {
             $query['$select'] = implode(",", $this->select);
+        }
+
+        if (!empty($this->filter)) {
+            $query['$filter'] = $this->filter;
         }
 
         // $top	- int32 - Number of rows to return in results

@@ -87,6 +87,26 @@ class CollectionQueryTest extends TestCase
             "Query string should be generated without encoding"
         );
     }
+
+    /**
+     * @depends testSelect
+     * @depends testLimit
+     * @depends testOffset
+     */
+    public function testFilter()
+    {
+        $cl = new Client(new Config([]));
+        $dc = new CollectionQueryTestDummyCollection($cl);
+        $cq = new CollectionQuery($dc);
+
+        $cq->andWhereEquals('name', "bob");
+        $cq->andWhereEquals('enabled', true);
+        $cq->andWhereEquals('type', [1,2,3]);
+
+        $this->assertSame("\$filter=name eq 'bob' and enabled eq 1 and type oneOf('1','2','3')",
+            $cq->getQueryString()
+        );
+    }
 }
 
 class CollectionQueryTestDummyCollection extends Collection
