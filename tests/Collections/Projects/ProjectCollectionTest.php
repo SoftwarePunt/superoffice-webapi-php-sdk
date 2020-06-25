@@ -86,8 +86,12 @@ class ProjectCollectionTest extends TestCase
         $this->assertSame(1, $defaultProject->ProjectId);
         $this->assertSame("Example: Internal project", $defaultProject->Name);
         $this->assertSame("10011", $defaultProject->ProjectNumber);
+
         $this->assertSame(1, $defaultProject->ActiveLinks);
         $this->assertIsArray($defaultProject->Links);
         $this->assertSame("https://www.youtube.com/watch?v=KaOC9danxNo", $defaultProject->Links[0]->ExtraInfo);
+
+        $this->assertIsArray($defaultProject->Urls);
+        $this->assertSame("https://www.youtube.com/embed/KaOC9danxNo", $defaultProject->Urls[0]->StrippedValue);
     }
 }

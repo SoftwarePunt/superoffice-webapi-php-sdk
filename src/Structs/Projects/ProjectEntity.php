@@ -36,6 +36,11 @@ class ProjectEntity extends UDefJsonStruct
     public bool $IsPublished;
 
     /**
+     * @var ProjectUrl[]
+     */
+    public array $Urls;
+
+    /**
      * @var ProjectLink[]
      */
     public array $Links;
@@ -53,6 +58,15 @@ class ProjectEntity extends UDefJsonStruct
                 $link->fillFromArray($linkEntry);
 
                 $this->Links[] = $link;
+            }
+        } else if ($propName === "Urls" && is_array($value)) {
+            $this->Urls = [];
+
+            foreach ($value as $urlEntry) {
+                $url = new ProjectUrl();
+                $url->fillFromArray($urlEntry);
+
+                $this->Urls[] = $url;
             }
         } else {
             parent::assignProperty($propName, $value);
