@@ -60,10 +60,11 @@ class CollectionQuery
      * Adds a filter condition with an "and" clause.
      *
      * @param string $columnName
+     * @param string $operator
      * @param bool|int|float|string|array $expectedValue
      * @return $this
      */
-    public function andWhereEquals(string $columnName, $expectedValue): self
+    protected function andWhere(string $columnName, $operator, $expectedValue): self
     {
         if (!empty($this->filter)) {
             $this->filter .= " and ";
@@ -74,15 +75,51 @@ class CollectionQuery
         }
 
         if (is_integer($expectedValue) || is_float($expectedValue)) {
-            $this->filter .= "{$columnName} eq {$expectedValue}";
+            $this->filter .= "{$columnName} {$operator} {$expectedValue}";
         } else if (is_string($expectedValue)) {
-            $this->filter .= "{$columnName} eq '{$expectedValue}'";
-        } else if (is_array($expectedValue)) {
+            $this->filter .= "{$columnName} {$operator} '{$expectedValue}'";
+        } else if (($operator === "eq" || $operator === "equals" || $operator === "oneOf") && is_array($expectedValue)) {
             $oneOfList = "'" . implode("','", $expectedValue) . "'";
             $this->filter .= "{$columnName} oneOf({$oneOfList})";
         }
 
         return $this;
+    }
+
+    /**
+     * Adds a filter condition with an "and equals" clause.
+     *
+     * @param string $columnName
+     * @param bool|int|float|string|array $expectedValue
+     * @return $this
+     */
+    public function andWhereEquals(string $columnName, $expectedValue): self
+    {
+        return $this->andWhere($columnName, "eq", $expectedValue);
+    }
+
+    /**
+     * Adds a filter condition with an "and greater than" clause.
+     *
+     * @param string $columnName
+     * @param int|float $expectedValue
+     * @return $this
+     */
+    public function andWhereGreaterThan(string $columnName, $expectedValue): self
+    {
+        return $this->andWhere($columnName, "gt", $expectedValue);
+    }
+
+    /**
+     * Adds a filter condition with an "and less than" clause.
+     *
+     * @param string $columnName
+     * @param int|float $expectedValue
+     * @return $this
+     */
+    public function andWhereLessThan(string $columnName, $expectedValue): self
+    {
+        return $this->andWhere($columnName, "lt", $expectedValue);
     }
 
     /**

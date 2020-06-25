@@ -93,7 +93,7 @@ class CollectionQueryTest extends TestCase
      * @depends testLimit
      * @depends testOffset
      */
-    public function testFilter()
+    public function testFilterEquals()
     {
         $cl = new Client(new Config([]));
         $dc = new CollectionQueryTestDummyCollection($cl);
@@ -104,6 +104,23 @@ class CollectionQueryTest extends TestCase
         $cq->andWhereEquals('type', [1,2,3]);
 
         $this->assertSame("\$filter=name eq 'bob' and enabled eq 1 and type oneOf('1','2','3')",
+            $cq->getQueryString()
+        );
+    }
+
+    /**
+     * @depends testFilterEquals
+     */
+    public function testFilterGreaterThanLessThan()
+    {
+        $cl = new Client(new Config([]));
+        $dc = new CollectionQueryTestDummyCollection($cl);
+        $cq = new CollectionQuery($dc);
+
+        $cq->andWhereGreaterThan('number', 123);
+        $cq->andWhereLessThan('number', 456);
+
+        $this->assertSame("\$filter=number gt 123 and number lt 456",
             $cq->getQueryString()
         );
     }
