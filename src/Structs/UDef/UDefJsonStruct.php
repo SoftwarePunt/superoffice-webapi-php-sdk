@@ -103,6 +103,10 @@ abstract class UDefJsonStruct extends JsonStruct
                     "\[\D:m/d/Y]",
                     $str
                 );
+
+                if ($parsed === false) {
+                    return null;
+                }
             } else {
                 // Default mode: any DateTime
                 $parsed = new \DateTime($str);
