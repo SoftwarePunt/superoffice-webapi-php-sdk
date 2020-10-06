@@ -73,7 +73,8 @@ class UDefJsonStructTest extends TestCase
             "SuperOffice:2" => "2015-04-03 11:22:33",
             "SuperOffice:3" => "",
             "SuperOffice:4" => "invalid date/time",
-            "SuperOffice:5" => "[D:invalid_format]"
+            "SuperOffice:5" => "[D:invalid_format]",
+            "SuperOffice:6" => "[D:01/01/0001 00:00:00.0000000]"
         ];
 
         $this->assertNull($struct->getUserDate("invalid_key"));
@@ -82,6 +83,7 @@ class UDefJsonStructTest extends TestCase
         $this->assertNull($struct->getUserDate("SuperOffice:3"));
         $this->assertNull($struct->getUserDate("SuperOffice:4"));
         $this->assertNull($struct->getUserDate("SuperOffice:5"));
+        $this->assertSame("0001-01-01 00:00:00", $struct->getUserDate("SuperOffice:6")->format('Y-m-d H:i:s'));
     }
 
     public function testGetUserListValue()

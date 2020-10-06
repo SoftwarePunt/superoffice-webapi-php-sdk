@@ -96,21 +96,14 @@ abstract class UDefJsonStruct extends JsonStruct
         $parsed = null;
 
         try {
-            if (strpos($str, "[D:") === 0) {
-                // SuperOffice date format
-                // example: [D:01/01/0001]
-                $parsed = \DateTime::createFromFormat(
-                    "\[\D:m/d/Y]",
-                    $str
-                );
-
-                if ($parsed === false) {
-                    return null;
-                }
-            } else {
-                // Default mode: any DateTime
-                $parsed = new \DateTime($str);
+            if (strpos($str, "[D:") === 0 && $endIdx = strpos($str, ']') > 0) {
+                // DateTime is wrapped in "[D:]", unpack it
+                // Examples: [D:11/30/2011], [D:01/01/0001 00:00:00.0000000]
+                $str = substr($str, 3, $endIdx - 2);
             }
+
+            // Default mode: any DateTime
+            $parsed = new \DateTime($str);
         } catch (\Exception $ex) { }
 
         return $parsed;
