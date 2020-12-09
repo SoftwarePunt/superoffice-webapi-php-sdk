@@ -102,8 +102,9 @@ class CollectionQueryTest extends TestCase
         $cq->andWhereEquals('name', "bob");
         $cq->andWhereEquals('enabled', true);
         $cq->andWhereEquals('type', [1,2,3]);
+        $cq->andWhereEquals('test', [1]);
 
-        $this->assertSame("\$filter=name eq 'bob' and enabled eq 1 and type oneOf('1','2','3')",
+        $this->assertSame("\$filter=name eq 'bob' and enabled eq 1 and type oneOf('1','2','3') and test eq 1",
             $cq->getQueryString()
         );
     }

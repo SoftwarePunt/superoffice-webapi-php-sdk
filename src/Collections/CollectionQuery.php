@@ -74,6 +74,10 @@ class CollectionQuery
             $expectedValue = $expectedValue ? 1 : 0;
         }
 
+        if (is_array($expectedValue) && count($expectedValue) === 1) {
+            $expectedValue = array_values($expectedValue)[0];
+        }
+
         if (is_integer($expectedValue) || is_float($expectedValue)) {
             $this->filter .= "{$columnName} {$operator} {$expectedValue}";
         } else if (is_string($expectedValue)) {
