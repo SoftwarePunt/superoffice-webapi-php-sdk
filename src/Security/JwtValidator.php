@@ -2,10 +2,14 @@
 
 namespace roydejong\SoWebApi\Security;
 
+use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
-use Lcobucci\JWT\ValidationData;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\Constraint\ValidAt;
+use Lcobucci\JWT\Validation\Validator;
 use roydejong\SoWebApi\Config;
 
 class JwtValidator
@@ -41,25 +45,23 @@ class JwtValidator
             throw new \InvalidArgumentException('Invalid JWT: could not parse token', $ex->getCode(), $ex);
         }
 
-        // Token should be valid now, with 30 second leeway
-        $constraints = new ValidationData(time(), 30);
-        // Token should be issued by the configured SO environment (e.g https://sod.superoffice.com)
-        $constraints->setIssuer("https://{$this->config->environment}.superoffice.com");
-
-        // Perform validation on constraints
-        if (!$token->validate($constraints)) {
-            return false;
-        }
-
-        // Perform verification against the SO login certificate for the current environment
+        // Define validation constraints
         $signer = new Sha256();
         $publicKey = new Key("file://" . self::getLoginCertificatePath($this->config->environment));
 
-        if (!$token->verify($signer, $publicKey)) {
-            return false;
-        }
+        $constraints = [
+            // Token should be valid now, with 30 second leeway
+            new ValidAt(SystemClock::fromSystemTimezone(), new \DateInterval('PT30S')),
 
-        return true;
+            // Token should be issued by the configured SO environment (e.g https://sod.superoffice.com)
+            new IssuedBy("https://{$this->config->environment}.superoffice.com"),
+
+            // Should be signed by the SO login certificate for the current environment
+            new SignedWith($signer, $publicKey)
+        ];
+
+        // Perform validation
+        return (new Validator())->validate($token, ...$constraints);
     }
 
     public static function getLoginCertificatePath(string $environment): string

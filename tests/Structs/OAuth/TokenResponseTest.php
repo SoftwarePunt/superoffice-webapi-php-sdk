@@ -11,6 +11,18 @@ use roydejong\SoWebApi\Structs\OAuth\TokenResponse;
 
 class TokenResponseTest extends TestCase
 {
+    // -----------------------------------------------------------------------------------------------------------------
+    // Helpers
+
+    private function getImmutableDateTimeWithOffset(int $offset)
+    {
+        return (new \DateTimeImmutable())
+            ->setTimestamp(time() + $offset);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Tests actual
+
     public function testValidateAndVerifyJwtWithBogusToken()
     {
         // Sample JWT: bogus, immediate parser failure
@@ -39,9 +51,9 @@ class TokenResponseTest extends TestCase
         $privateKey = new Key("file://{$pathPrivKey}");
 
         $token = (new Builder())
-            ->issuedAt(time())
+            ->issuedAt($this->getImmutableDateTimeWithOffset(0))
             ->issuedBy('https://unit_test.superoffice.com')
-            ->expiresAt(time() + 60)
+            ->expiresAt($this->getImmutableDateTimeWithOffset(+60))
             ->getToken($signer, $privateKey);
 
         $tokenResponse = new TokenResponse();

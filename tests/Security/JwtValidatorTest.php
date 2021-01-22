@@ -11,6 +11,18 @@ use roydejong\SoWebApi\Security\JwtValidator;
 
 class JwtValidatorTest extends TestCase
 {
+    // -----------------------------------------------------------------------------------------------------------------
+    // Helpers
+
+    private function getImmutableDateTimeWithOffset(int $offset)
+    {
+        return (new \DateTimeImmutable())
+            ->setTimestamp(time() + $offset);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Tests actual
+
     public function testGetLoginCertificatePaths()
     {
         $resultPath = JwtValidator::getLoginCertificatePath("sod");
@@ -48,9 +60,9 @@ class JwtValidatorTest extends TestCase
         $privateKey = new Key("file://{$pathPrivKey}");
 
         $token = (new Builder())
-            ->issuedAt(time())
+            ->issuedAt($this->getImmutableDateTimeWithOffset(0))
             ->issuedBy('https://unit_test.superoffice.com')
-            ->expiresAt(time() + 60)
+            ->expiresAt($this->getImmutableDateTimeWithOffset(+60))
             ->getToken($signer, $privateKey);
 
         $jv = new JwtValidator($config);
@@ -71,9 +83,9 @@ class JwtValidatorTest extends TestCase
         $privateKey = new Key("file://{$pathPrivKey}");
 
         $token = (new Builder())
-            ->issuedAt(time() - 3600)
+            ->issuedAt($this->getImmutableDateTimeWithOffset(-3600))
             ->issuedBy('https://unit_test.superoffice.com')
-            ->expiresAt(time() - 3000)
+            ->expiresAt($this->getImmutableDateTimeWithOffset(-3000))
             ->getToken($signer, $privateKey);
 
         $jv = new JwtValidator($config);
@@ -94,9 +106,9 @@ class JwtValidatorTest extends TestCase
         $privateKey = new Key("file://{$pathPrivKey}");
 
         $token = (new Builder())
-            ->issuedAt(time())
+            ->issuedAt($this->getImmutableDateTimeWithOffset(0))
             ->issuedBy('https://bad_issuer.superoffice.com')
-            ->expiresAt(time() + 3600)
+            ->expiresAt($this->getImmutableDateTimeWithOffset(+3600))
             ->getToken($signer, $privateKey);
 
         $jv = new JwtValidator($config);
@@ -117,9 +129,9 @@ class JwtValidatorTest extends TestCase
         $privateKey = new Key("file://{$pathPrivKey}");
 
         $token = (new Builder())
-            ->issuedAt(time())
+            ->issuedAt($this->getImmutableDateTimeWithOffset(0))
             ->issuedBy('https://sod.superoffice.com')
-            ->expiresAt(time() + 60)
+            ->expiresAt($this->getImmutableDateTimeWithOffset(+60))
             ->getToken($signer, $privateKey);
 
         $jv = new JwtValidator($config);
