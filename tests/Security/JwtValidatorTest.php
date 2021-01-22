@@ -3,6 +3,8 @@
 namespace roydejong\SoWebApiTests\Security;
 
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Encoding\ChainedFormatter;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use PHPUnit\Framework\TestCase;
@@ -57,16 +59,16 @@ class JwtValidatorTest extends TestCase
         $pathPrivKey = realpath(__DIR__ . "/../../") . "/certificates/unit_test_login.key";
 
         $signer = new Sha256();
-        $privateKey = new Key("file://{$pathPrivKey}");
+        $privateKey = Key\LocalFileReference::file("file://{$pathPrivKey}");
 
-        $token = (new Builder())
+        $token = (new \Lcobucci\JWT\Token\Builder(new JoseEncoder(), ChainedFormatter::default()))
             ->issuedAt($this->getImmutableDateTimeWithOffset(0))
             ->issuedBy('https://unit_test.superoffice.com')
             ->expiresAt($this->getImmutableDateTimeWithOffset(+60))
             ->getToken($signer, $privateKey);
 
         $jv = new JwtValidator($config);
-        $result = $jv->validateAndVerifyJwt($token);
+        $result = $jv->validateAndVerifyJwt($token->toString());
 
         $this->assertTrue($result, "Valid token should validate");
     }
@@ -80,16 +82,16 @@ class JwtValidatorTest extends TestCase
         $pathPrivKey = realpath(__DIR__ . "/../../") . "/certificates/unit_test_login.key";
 
         $signer = new Sha256();
-        $privateKey = new Key("file://{$pathPrivKey}");
+        $privateKey = Key\LocalFileReference::file("file://{$pathPrivKey}");
 
-        $token = (new Builder())
+        $token = (new \Lcobucci\JWT\Token\Builder(new JoseEncoder(), ChainedFormatter::default()))
             ->issuedAt($this->getImmutableDateTimeWithOffset(-3600))
             ->issuedBy('https://unit_test.superoffice.com')
             ->expiresAt($this->getImmutableDateTimeWithOffset(-3000))
             ->getToken($signer, $privateKey);
 
         $jv = new JwtValidator($config);
-        $result = $jv->validateAndVerifyJwt($token);
+        $result = $jv->validateAndVerifyJwt($token->toString());
 
         $this->assertFalse($result, "Expired token should not validate");
     }
@@ -103,16 +105,16 @@ class JwtValidatorTest extends TestCase
         $pathPrivKey = realpath(__DIR__ . "/../../") . "/certificates/unit_test_login.key";
 
         $signer = new Sha256();
-        $privateKey = new Key("file://{$pathPrivKey}");
+        $privateKey = Key\LocalFileReference::file("file://{$pathPrivKey}");
 
-        $token = (new Builder())
+        $token = (new \Lcobucci\JWT\Token\Builder(new JoseEncoder(), ChainedFormatter::default()))
             ->issuedAt($this->getImmutableDateTimeWithOffset(0))
             ->issuedBy('https://bad_issuer.superoffice.com')
             ->expiresAt($this->getImmutableDateTimeWithOffset(+3600))
             ->getToken($signer, $privateKey);
 
         $jv = new JwtValidator($config);
-        $result = $jv->validateAndVerifyJwt($token);
+        $result = $jv->validateAndVerifyJwt($token->toString());
 
         $this->assertFalse($result, "Token with invalid issuer should not validate");
     }
@@ -126,16 +128,16 @@ class JwtValidatorTest extends TestCase
         $pathPrivKey = realpath(__DIR__ . "/../../") . "/certificates/unit_test_login.key";
 
         $signer = new Sha256();
-        $privateKey = new Key("file://{$pathPrivKey}");
+        $privateKey = Key\LocalFileReference::file("file://{$pathPrivKey}");
 
-        $token = (new Builder())
+        $token = (new \Lcobucci\JWT\Token\Builder(new JoseEncoder(), ChainedFormatter::default()))
             ->issuedAt($this->getImmutableDateTimeWithOffset(0))
             ->issuedBy('https://sod.superoffice.com')
             ->expiresAt($this->getImmutableDateTimeWithOffset(+60))
             ->getToken($signer, $privateKey);
 
         $jv = new JwtValidator($config);
-        $result = $jv->validateAndVerifyJwt($token);
+        $result = $jv->validateAndVerifyJwt($token->toString());
 
         $this->assertFalse($result, "Valid token should not validate with the wrong certificate / environment");
     }

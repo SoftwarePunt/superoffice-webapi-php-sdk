@@ -3,6 +3,7 @@
 namespace roydejong\SoWebApi\Security;
 
 use Lcobucci\Clock\SystemClock;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
@@ -40,14 +41,15 @@ class JwtValidator
         $token = null;
 
         try {
-            $token = (new Parser())->parse($jwt);
+            $token = (new \Lcobucci\JWT\Token\Parser(new JoseEncoder()))
+                ->parse($jwt);
         } catch (\InvalidArgumentException $ex) {
             throw new \InvalidArgumentException('Invalid JWT: could not parse token', $ex->getCode(), $ex);
         }
 
         // Define validation constraints
         $signer = new Sha256();
-        $publicKey = new Key("file://" . self::getLoginCertificatePath($this->config->environment));
+        $publicKey = Key\LocalFileReference::file("file://" . self::getLoginCertificatePath($this->config->environment));
 
         $constraints = [
             // Token should be valid now, with 30 second leeway
