@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c31307414a5cf58cf2596098afe3e6bf",
+    "content-hash": "75d96b574cae6ecb27696a2ffccad343",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -443,25 +443,25 @@
         },
         {
             "name": "spatie/guzzle-rate-limiter-middleware",
-            "version": "1.0.8",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/guzzle-rate-limiter-middleware.git",
-                "reference": "e28277d2e65252995f088dadfb0053f5ba6d4fb8"
+                "reference": "8679f7a22e46edc182046f18b83bacbc627b0600"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/guzzle-rate-limiter-middleware/zipball/e28277d2e65252995f088dadfb0053f5ba6d4fb8",
-                "reference": "e28277d2e65252995f088dadfb0053f5ba6d4fb8",
+                "url": "https://api.github.com/repos/spatie/guzzle-rate-limiter-middleware/zipball/8679f7a22e46edc182046f18b83bacbc627b0600",
+                "reference": "8679f7a22e46edc182046f18b83bacbc627b0600",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3|^7.0",
-                "php": "^7.1"
+                "php": "^7.1|^8.0"
             },
             "require-dev": {
                 "larapack/dd": "^1.0",
-                "phpunit/phpunit": "^7.0"
+                "phpunit/phpunit": "^9.3.3"
             },
             "type": "library",
             "autoload": {
@@ -489,9 +489,9 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/guzzle-rate-limiter-middleware/issues",
-                "source": "https://github.com/spatie/guzzle-rate-limiter-middleware/tree/master"
+                "source": "https://github.com/spatie/guzzle-rate-limiter-middleware/tree/2.0.1"
             },
-            "time": "2020-07-16T06:48:09+00:00"
+            "time": "2020-12-19T18:47:06+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
