@@ -6,9 +6,9 @@
 
 ***Unofficial PHP SDK for SuperOffice Web API***
 
-This library provides a PHP SDK for the SuperOffice [REST WebAPI](https://community.superoffice.com/documentation/sdk/SO.NetServer.Web.Services/html/Reference-WebAPI-REST-REST.htm).
+This library provides a PHP SDK for the SuperOffice [REST WebAPI](https://community.superoffice.com/documentation/sdk/SO.NetServer.Web.Services/html/Reference-WebAPI-REST-REST.htm), specifically targeting CRM Online (SuperOffice Cloud).
 
-> ⚠ **Note: This library is a work-in-progress, and only targets CRM Online (SuperOffice Cloud).**
+**This library's functionality is currently limited to Projects, Appointments and Documents, but it should be easy enough to expand it to other SuperOffice types as well if you need them - just note that some work is needed.**
 
 ## Installation
 The recommended way to install this library is with [Composer](http://getcomposer.org/), by adding the [`superoffice-webapi`](https://packagist.org/packages/roydejong/superoffice-webapi) package as a dependency to your application:
