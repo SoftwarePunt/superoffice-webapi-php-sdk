@@ -3,6 +3,7 @@
 namespace roydejong\SoWebApiTests\Structs\UDef;
 
 use PHPUnit\Framework\TestCase;
+use roydejong\SoWebApi\Structs\JsonStruct;
 use roydejong\SoWebApi\Structs\UDef\UDefJsonStruct;
 
 class UDefJsonStructTest extends TestCase
@@ -40,6 +41,26 @@ class UDefJsonStructTest extends TestCase
         $this->assertSame(0, $struct->getUserInt("SuperOffice:3"));
         $this->assertSame(0, $struct->getUserInt("SuperOffice:4"));
         $this->assertSame(1234, $struct->getUserInt("SuperOffice:5"));
+    }
+
+    public function testGetUserIntNullable()
+    {
+        $struct = new UDefJsonStructTestStruct();
+
+        $struct->UserDefinedFields = [
+            "SuperOffice:1" => "123",
+            "SuperOffice:2" => "123.45",
+            "SuperOffice:3" => "0",
+            "SuperOffice:4" => "invalid",
+            "SuperOffice:5" => "[I:1234]"
+        ];
+
+        $this->assertSame(null, $struct->getUserIntNullable("invalid_key"));
+        $this->assertSame(123, $struct->getUserIntNullable("SuperOffice:1"));
+        $this->assertSame(123, $struct->getUserIntNullable("SuperOffice:2"));
+        $this->assertSame(0, $struct->getUserIntNullable("SuperOffice:3"));
+        $this->assertSame(null, $struct->getUserIntNullable("SuperOffice:4"));
+        $this->assertSame(1234, $struct->getUserIntNullable("SuperOffice:5"));
     }
 
     public function testGetUserBool()

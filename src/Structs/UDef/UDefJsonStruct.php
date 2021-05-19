@@ -62,6 +62,30 @@ abstract class UDefJsonStruct extends JsonStruct
     }
 
     /**
+     * Same as getUserInt(), but defaults to NULL if the field does not have a value.
+     *
+     * @see getUserInt
+     */
+    public function getUserIntNullable(string $progId): ?int
+    {
+        $str = $this->getUserString($progId);
+
+        if ($str === null) {
+            return null;
+        }
+
+        if (strpos($str, "[I:") === 0) {
+            $str = substr($str, strlen("[I:"));
+            $str = substr($str, 0, strlen($str) - strlen("]"));
+            return intval($str);
+        } else if (is_numeric($str)) {
+            return intval($str);
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Gets a boolean value from the UserDefinedFields for this struct.
      *
      * @param string $progId The "Prog ID" (programmatic id) configured for this UDef field in SuperOffice.
