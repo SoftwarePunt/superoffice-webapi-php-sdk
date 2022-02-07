@@ -4,7 +4,6 @@ namespace roydejong\SoWebApi\Security;
 
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Encoding\JoseEncoder;
-use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
@@ -49,7 +48,7 @@ class JwtValidator
 
         // Define validation constraints
         $signer = new Sha256();
-        $publicKey = Key\LocalFileReference::file("file://" . self::getLoginCertificatePath($this->config->environment));
+        $publicKey = Key\InMemory::file("file://" . self::getLoginCertificatePath($this->config->environment));
 
         $constraints = [
             // Token should be valid now, with 30 second leeway
