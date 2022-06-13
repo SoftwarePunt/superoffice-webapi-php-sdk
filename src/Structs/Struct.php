@@ -124,7 +124,9 @@ abstract class Struct
                         case "DateTime":
                         case "\DateTime":
                             // Try to parse as DateTime value
-                            $value = new \DateTime($value);
+                            if ($value) {
+                                $value = new \DateTime($value);
+                            }
                             break;
                         default:
                             if (is_array($value)) {

@@ -11,12 +11,12 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.1",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*",
-        "guzzlehttp/guzzle": "~6.0",
+        "guzzlehttp/guzzle": "~7",
         "lcobucci/jwt": "^4.0",
         "spatie/guzzle-rate-limiter-middleware": "^2.0"
     },
