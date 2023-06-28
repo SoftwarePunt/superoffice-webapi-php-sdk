@@ -1,8 +1,8 @@
 <?php
 
-namespace roydejong\SoWebApi\Structs\UDef;
+namespace SoftwarePunt\SoWebApi\Structs\UDef;
 
-use roydejong\SoWebApi\Structs\JsonStruct;
+use SoftwarePunt\SoWebApi\Structs\JsonStruct;
 
 /**
  * A JsonStruct with UserDefinedFields.

@@ -1,13 +1,13 @@
 <?php
 
-namespace roydejong\SoWebApiTests;
+namespace SoftwarePunt\SoWebApiTests;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use roydejong\SoWebApi\Client;
-use roydejong\SoWebApi\Config;
-use roydejong\SoWebApiTests\Mock\MockClient;
+use SoftwarePunt\SoWebApi\Client;
+use SoftwarePunt\SoWebApi\Config;
+use SoftwarePunt\SoWebApiTests\Mock\MockClient;
 
 class ClientTest extends TestCase
 {
@@ -100,7 +100,7 @@ class ClientTest extends TestCase
 
         $tenantStatus = $mockClient->getTenantStatus();
 
-        $this->assertInstanceOf("roydejong\SoWebApi\Structs\Meta\TenantStatus", $tenantStatus);
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Structs\Meta\TenantStatus", $tenantStatus);
 
         $this->assertEquals("Cust12345", $tenantStatus->ContextIdentifier);
         $this->assertEquals("https://sod2.superoffice.com/Cust12345", $tenantStatus->Endpoint);
@@ -187,7 +187,7 @@ class ClientTest extends TestCase
 
         $tokenResponse = $mockClient->requestOAuthAccessToken("some_code");
 
-        $this->assertInstanceOf("roydejong\SoWebApi\Structs\OAuth\TokenResponse", $tokenResponse);
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Structs\OAuth\TokenResponse", $tokenResponse);
 
         $this->assertEquals("Bearer", $tokenResponse->token_type);
         $this->assertEquals(3600, $tokenResponse->expires_in);
@@ -217,7 +217,7 @@ class ClientTest extends TestCase
 
         $tokenResponse = $mockClient->refreshOAuthAccessToken("some_code");
 
-        $this->assertInstanceOf("roydejong\SoWebApi\Structs\OAuth\TokenResponse", $tokenResponse);
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Structs\OAuth\TokenResponse", $tokenResponse);
 
         $this->assertEquals("Bearer", $tokenResponse->token_type);
         $this->assertEquals(3600, $tokenResponse->expires_in);
@@ -306,7 +306,7 @@ class ClientTest extends TestCase
             return new Response(500);
         });
 
-        $this->expectException("roydejong\SoWebapi\WebApiException");
+        $this->expectException("SoftwarePunt\SoWebapi\WebApiException");
         $this->expectExceptionMessage("Expected 200 OK");
 
         $client->get('/bla');
@@ -316,7 +316,7 @@ class ClientTest extends TestCase
     {
         $client = new MockClient();
 
-        $this->expectException("roydejong\SoWebapi\WebApiException");
+        $this->expectException("SoftwarePunt\SoWebapi\WebApiException");
         $this->expectExceptionMessage("Error in HTTP request");
 
         $client->get('INVALID URL 😃');
@@ -327,19 +327,19 @@ class ClientTest extends TestCase
 
     public function testProjects()
     {
-        $this->assertInstanceOf("roydejong\SoWebApi\Collections\Projects\ProjectCollection",
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Collections\Projects\ProjectCollection",
             (new Client(new Config()))->projects());
     }
 
     public function testAppointments()
     {
-        $this->assertInstanceOf("roydejong\SoWebApi\Collections\Appointments\AppointmentCollection",
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Collections\Appointments\AppointmentCollection",
             (new Client(new Config()))->appointments());
     }
 
     public function testDocuments()
     {
-        $this->assertInstanceOf("roydejong\SoWebApi\Collections\Appointments\DocumentCollection",
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Collections\Appointments\DocumentCollection",
             (new Client(new Config()))->documents());
     }
 }

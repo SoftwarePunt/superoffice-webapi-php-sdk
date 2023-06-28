@@ -1,8 +1,8 @@
 <?php
 
-namespace roydejong\SoWebApi\Structs\Meta;
+namespace SoftwarePunt\SoWebApi\Structs\Meta;
 
-use roydejong\SoWebApi\Structs\JsonStruct;
+use SoftwarePunt\SoWebApi\Structs\JsonStruct;
 
 class TenantStatus extends JsonStruct
 {

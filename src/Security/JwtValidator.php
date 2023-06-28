@@ -1,6 +1,6 @@
 <?php
 
-namespace roydejong\SoWebApi\Security;
+namespace SoftwarePunt\SoWebApi\Security;
 
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Encoding\JoseEncoder;
@@ -10,7 +10,7 @@ use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\JWT\Validation\Validator;
-use roydejong\SoWebApi\Config;
+use SoftwarePunt\SoWebApi\Config;
 
 class JwtValidator
 {

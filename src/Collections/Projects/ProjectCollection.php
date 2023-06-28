@@ -1,11 +1,11 @@
 <?php
 
-namespace roydejong\SoWebApi\Collections\Projects;
+namespace SoftwarePunt\SoWebApi\Collections\Projects;
 
-use roydejong\SoWebApi\Collections\Collection;
-use roydejong\SoWebApi\Structs\JsonStruct;
-use roydejong\SoWebApi\Structs\Projects\ProjectEntity;
-use roydejong\SoWebApi\WebApiException;
+use SoftwarePunt\SoWebApi\Collections\Collection;
+use SoftwarePunt\SoWebApi\Structs\JsonStruct;
+use SoftwarePunt\SoWebApi\Structs\Projects\ProjectEntity;
+use SoftwarePunt\SoWebApi\WebApiException;
 
 class ProjectCollection extends Collection
 {

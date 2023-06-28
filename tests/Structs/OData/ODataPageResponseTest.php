@@ -1,10 +1,10 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Structs\OData;
+namespace SoftwarePunt\SoWebApiTests\Structs\OData;
 
 use PHPUnit\Framework\TestCase;
-use roydejong\SoWebApi\Structs\OData\ODataPageResponse;
-use roydejong\SoWebApi\Structs\Projects\ODataProjectItem;
+use SoftwarePunt\SoWebApi\Structs\OData\ODataPageResponse;
+use SoftwarePunt\SoWebApi\Structs\Projects\ODataProjectItem;
 
 class ODataPageResponseTest extends TestCase
 {
@@ -37,7 +37,7 @@ class ODataPageResponseTest extends TestCase
 
         $projEntry = $entities[0];
 
-        $this->assertInstanceOf("roydejong\SoWebApi\Structs\Projects\ODataProjectItem", $projEntry);
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Structs\Projects\ODataProjectItem", $projEntry);
 
         $this->assertSame(1, $projEntry->projectId);
         $this->assertSame("Example: Internal project", $projEntry->name);
@@ -51,7 +51,7 @@ class ODataPageResponseTest extends TestCase
         $jsonInput = file_get_contents(__DIR__ . "/../../_samples/unsupported_odata_response.json");
         $parsedObj = new ODataPageResponse($jsonInput);
 
-        $this->expectException("roydejong\SoWebapi\WebApiException");
+        $this->expectException("SoftwarePunt\SoWebapi\WebApiException");
         $this->expectExceptionMessage("unsupported entity name: unsupported-entity");
 
         $parsedObj->getEntities();

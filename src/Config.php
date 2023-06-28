@@ -1,6 +1,6 @@
 <?php
 
-namespace roydejong\SoWebApi;
+namespace SoftwarePunt\SoWebApi;
 
 /**
  * Configuration data for the SuperOffice API environment.

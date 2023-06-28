@@ -1,14 +1,14 @@
 <?php
 
-namespace roydejong\SoWebApi;
+namespace SoftwarePunt\SoWebApi;
 
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
-use roydejong\SoWebApi\Collections\Appointments\AppointmentCollection;
-use roydejong\SoWebApi\Collections\Appointments\DocumentCollection;
-use roydejong\SoWebApi\Collections\Projects\ProjectCollection;
-use roydejong\SoWebApi\Structs\Meta\TenantStatus;
-use roydejong\SoWebApi\Structs\OAuth\TokenResponse;
+use SoftwarePunt\SoWebApi\Collections\Appointments\AppointmentCollection;
+use SoftwarePunt\SoWebApi\Collections\Appointments\DocumentCollection;
+use SoftwarePunt\SoWebApi\Collections\Projects\ProjectCollection;
+use SoftwarePunt\SoWebApi\Structs\Meta\TenantStatus;
+use SoftwarePunt\SoWebApi\Structs\OAuth\TokenResponse;
 use Spatie\GuzzleRateLimiterMiddleware\RateLimiterMiddleware;
 
 /**
@@ -16,7 +16,7 @@ use Spatie\GuzzleRateLimiterMiddleware\RateLimiterMiddleware;
  */
 class Client
 {
-    const USER_AGENT = "superoffice-webapi (https://github.com/roydejong/superoffice-webapi-php-sdk)";
+    const USER_AGENT = "superoffice-webapi (https://github.com/SoftwarePunt/superoffice-webapi-php-sdk)";
 
     // -----------------------------------------------------------------------------------------------------------------
     // Core & config

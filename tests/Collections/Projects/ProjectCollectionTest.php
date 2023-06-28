@@ -1,11 +1,11 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Collections\Projects;
+namespace SoftwarePunt\SoWebApiTests\Collections\Projects;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use roydejong\SoWebApiTests\Mock\MockClient;
+use SoftwarePunt\SoWebApiTests\Mock\MockClient;
 
 class ProjectCollectionTest extends TestCase
 {
@@ -29,7 +29,7 @@ class ProjectCollectionTest extends TestCase
 
         $this->assertIsArray($allProjects, 'Query all should return array');
         $this->assertCount(1, $allProjects, 'Query should return one result for sample response');
-        $this->assertInstanceOf("roydejong\SoWebApi\Structs\Projects\ODataProjectItem", $allProjects[0]);
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Structs\Projects\ODataProjectItem", $allProjects[0]);
     }
 
     public function testGetDefault()
@@ -52,7 +52,7 @@ class ProjectCollectionTest extends TestCase
 
         $this->assertSame("https://mock.superoffice.com/Cust12345/api/v1/Project/default", (string)$request->getUri());
 
-        $this->assertInstanceOf("roydejong\SoWebApi\Structs\Projects\ProjectEntity", $defaultProject,
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Structs\Projects\ProjectEntity", $defaultProject,
             "Calling products()->getDefault() should return a single project entity");
 
         $this->assertSame(0, $defaultProject->ProjectId);
@@ -80,7 +80,7 @@ class ProjectCollectionTest extends TestCase
 
         $this->assertSame("https://mock.superoffice.com/Cust12345/api/v1/Project/1", (string)$request->getUri());
 
-        $this->assertInstanceOf("roydejong\SoWebApi\Structs\Projects\ProjectEntity", $defaultProject,
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Structs\Projects\ProjectEntity", $defaultProject,
             "Calling products()->getDefault() should return a single project entity");
 
         $this->assertSame(1, $defaultProject->ProjectId);

@@ -1,11 +1,11 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Mock;
+namespace SoftwarePunt\SoWebApiTests\Mock;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
-use roydejong\SoWebApi\Client;
-use roydejong\SoWebApi\Config;
+use SoftwarePunt\SoWebApi\Client;
+use SoftwarePunt\SoWebApi\Config;
 
 class MockClient extends Client
 {

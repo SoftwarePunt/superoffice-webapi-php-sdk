@@ -1,6 +1,6 @@
 <?php
 
-namespace roydejong\SoWebApi\Structs;
+namespace SoftwarePunt\SoWebApi\Structs;
 
 use Psr\Http\Message\ResponseInterface;
 

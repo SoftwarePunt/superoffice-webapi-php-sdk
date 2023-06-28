@@ -1,5 +1,5 @@
 {
-    "name": "roydejong/superoffice-webapi",
+    "name": "softwarepunt/superoffice-webapi",
     "description": "Unofficial PHP SDK for SuperOffice WebAPI",
     "type": "library",
     "license": "MIT",
@@ -26,8 +26,8 @@
     },
     "autoload": {
         "psr-4": {
-            "roydejong\\SoWebApi\\": "src/",
-            "roydejong\\SoWebApiTests\\": "tests/"
+            "SoftwarePunt\\SoWebApi\\": "src/",
+            "SoftwarePunt\\SoWebApiTests\\": "tests/"
         }
     }
 }

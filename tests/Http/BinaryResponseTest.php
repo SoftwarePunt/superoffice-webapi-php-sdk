@@ -1,10 +1,10 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Http;
+namespace SoftwarePunt\SoWebApiTests\Http;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-use roydejong\SoWebApi\Http\BinaryResponse;
+use SoftwarePunt\SoWebApi\Http\BinaryResponse;
 
 class BinaryResponseTest extends TestCase
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Structs;
+namespace SoftwarePunt\SoWebApiTests\Structs;
 
 use PHPUnit\Framework\TestCase;
-use roydejong\SoWebApi\Structs\Struct;
+use SoftwarePunt\SoWebApi\Structs\Struct;
 
 class StructTest extends TestCase
 {

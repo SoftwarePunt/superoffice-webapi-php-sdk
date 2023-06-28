@@ -1,8 +1,8 @@
 <?php
 
-namespace roydejong\SoWebApi\Structs\Projects;
+namespace SoftwarePunt\SoWebApi\Structs\Projects;
 
-use roydejong\SoWebApi\Structs\JsonStruct;
+use SoftwarePunt\SoWebApi\Structs\JsonStruct;
 
 class ODataProjectItem extends JsonStruct
 {

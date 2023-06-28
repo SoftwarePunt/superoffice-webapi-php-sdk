@@ -1,9 +1,9 @@
 <?php
 
-namespace roydejong\SoWebApi;
+namespace SoftwarePunt\SoWebApi;
 
 /**
- * Base exception type for roydejong\SoWebApi.
+ * Base exception type for SoftwarePunt\SoWebApi.
  *
  * Thrown when any error occurs while performing a request to or processing a response from the SuperOffice WebAPI.
  */

@@ -1,11 +1,11 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Collections\Appointments;
+namespace SoftwarePunt\SoWebApiTests\Collections\Appointments;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use roydejong\SoWebApiTests\Mock\MockClient;
+use SoftwarePunt\SoWebApiTests\Mock\MockClient;
 
 class AppointmentCollectionTest extends TestCase
 {
@@ -29,7 +29,7 @@ class AppointmentCollectionTest extends TestCase
 
         $this->assertIsArray($allAppointments, 'Query all should return array');
         $this->assertCount(3, $allAppointments, 'Query should return one result for sample response');
-        $this->assertInstanceOf("roydejong\SoWebApi\Structs\Appointments\ODataAppointmentItem", $allAppointments[0]);
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Structs\Appointments\ODataAppointmentItem", $allAppointments[0]);
     }
 
     public function testGetById()
@@ -52,7 +52,7 @@ class AppointmentCollectionTest extends TestCase
 
         $this->assertSame("https://mock.superoffice.com/Cust12345/api/v1/Appointment/3", (string)$request->getUri());
 
-        $this->assertInstanceOf("roydejong\SoWebApi\Structs\Appointments\AppointmentEntity", $appointment,
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Structs\Appointments\AppointmentEntity", $appointment,
             "Calling appointments()->testGetById() should return a single AppointmentEntity");
 
         $this->assertEquals(new \DateTime('2015-11-04T15:56:48'), $appointment->CreatedDate);

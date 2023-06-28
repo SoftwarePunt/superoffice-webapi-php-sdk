@@ -1,11 +1,11 @@
 <?php
 
-namespace roydejong\SoWebApi\Collections\Appointments;
+namespace SoftwarePunt\SoWebApi\Collections\Appointments;
 
-use roydejong\SoWebApi\Collections\Collection;
-use roydejong\SoWebApi\Structs\Appointments\AppointmentEntity;
-use roydejong\SoWebApi\Structs\JsonStruct;
-use roydejong\SoWebApi\WebApiException;
+use SoftwarePunt\SoWebApi\Collections\Collection;
+use SoftwarePunt\SoWebApi\Structs\Appointments\AppointmentEntity;
+use SoftwarePunt\SoWebApi\Structs\JsonStruct;
+use SoftwarePunt\SoWebApi\WebApiException;
 
 class AppointmentCollection extends Collection
 {

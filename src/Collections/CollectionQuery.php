@@ -1,9 +1,9 @@
 <?php
 
-namespace roydejong\SoWebApi\Collections;
+namespace SoftwarePunt\SoWebApi\Collections;
 
-use roydejong\SoWebApi\Structs\Struct;
-use roydejong\SoWebApi\WebApiException;
+use SoftwarePunt\SoWebApi\Structs\Struct;
+use SoftwarePunt\SoWebApi\WebApiException;
 
 class CollectionQuery
 {

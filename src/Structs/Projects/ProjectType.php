@@ -1,8 +1,8 @@
 <?php
 
-namespace roydejong\SoWebApi\Structs\Projects;
+namespace SoftwarePunt\SoWebApi\Structs\Projects;
 
-use roydejong\SoWebApi\Structs\Struct;
+use SoftwarePunt\SoWebApi\Structs\Struct;
 
 class ProjectType extends Struct
 {

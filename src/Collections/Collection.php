@@ -1,11 +1,11 @@
 <?php
 
-namespace roydejong\SoWebApi\Collections;
+namespace SoftwarePunt\SoWebApi\Collections;
 
-use roydejong\SoWebApi\Client;
-use roydejong\SoWebApi\Structs\OData\ODataPageResponse;
-use roydejong\SoWebApi\Structs\Struct;
-use roydejong\SoWebApi\WebApiException;
+use SoftwarePunt\SoWebApi\Client;
+use SoftwarePunt\SoWebApi\Structs\OData\ODataPageResponse;
+use SoftwarePunt\SoWebApi\Structs\Struct;
+use SoftwarePunt\SoWebApi\WebApiException;
 
 abstract class Collection
 {

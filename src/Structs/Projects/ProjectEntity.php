@@ -1,8 +1,8 @@
 <?php
 
-namespace roydejong\SoWebApi\Structs\Projects;
+namespace SoftwarePunt\SoWebApi\Structs\Projects;
 
-use roydejong\SoWebApi\Structs\UDef\UDefJsonStruct;
+use SoftwarePunt\SoWebApi\Structs\UDef\UDefJsonStruct;
 
 class ProjectEntity extends UDefJsonStruct
 {

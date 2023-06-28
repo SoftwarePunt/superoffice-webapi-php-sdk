@@ -1,14 +1,14 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Collections;
+namespace SoftwarePunt\SoWebApiTests\Collections;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use roydejong\SoWebApi\Client;
-use roydejong\SoWebApi\Collections\Collection;
-use roydejong\SoWebApi\Config;
-use roydejong\SoWebApiTests\Mock\MockClient;
+use SoftwarePunt\SoWebApi\Client;
+use SoftwarePunt\SoWebApi\Collections\Collection;
+use SoftwarePunt\SoWebApi\Config;
+use SoftwarePunt\SoWebApiTests\Mock\MockClient;
 
 class CollectionTest extends TestCase
 {
@@ -17,7 +17,7 @@ class CollectionTest extends TestCase
         $cl = new Client(new Config([]));
         $dc = new CollectionTestDummyCollection($cl);
 
-        $this->assertInstanceOf("roydejong\SoWebApi\Collections\CollectionQuery", $dc->query());
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Collections\CollectionQuery", $dc->query());
     }
 
     public function testQueryExecute()

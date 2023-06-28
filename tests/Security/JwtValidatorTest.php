@@ -1,6 +1,6 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Security;
+namespace SoftwarePunt\SoWebApiTests\Security;
 
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
@@ -8,8 +8,8 @@ use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use PHPUnit\Framework\TestCase;
-use roydejong\SoWebApi\Config;
-use roydejong\SoWebApi\Security\JwtValidator;
+use SoftwarePunt\SoWebApi\Config;
+use SoftwarePunt\SoWebApi\Security\JwtValidator;
 
 class JwtValidatorTest extends TestCase
 {

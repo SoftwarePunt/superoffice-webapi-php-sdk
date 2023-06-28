@@ -1,12 +1,12 @@
 <?php
 
-namespace roydejong\SoWebApi\Structs\OData;
+namespace SoftwarePunt\SoWebApi\Structs\OData;
 
-use roydejong\SoWebApi\Structs\Appointments\ODataAppointmentItem;
-use roydejong\SoWebApi\Structs\Appointments\ODataDocumentItem;
-use roydejong\SoWebApi\Structs\JsonStruct;
-use roydejong\SoWebApi\Structs\Projects\ODataProjectItem;
-use roydejong\SoWebApi\WebApiException;
+use SoftwarePunt\SoWebApi\Structs\Appointments\ODataAppointmentItem;
+use SoftwarePunt\SoWebApi\Structs\Appointments\ODataDocumentItem;
+use SoftwarePunt\SoWebApi\Structs\JsonStruct;
+use SoftwarePunt\SoWebApi\Structs\Projects\ODataProjectItem;
+use SoftwarePunt\SoWebApi\WebApiException;
 
 class ODataPageResponse extends JsonStruct
 {

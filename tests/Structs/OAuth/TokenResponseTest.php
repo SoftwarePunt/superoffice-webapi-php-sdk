@@ -1,6 +1,6 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Structs\OAuth;
+namespace SoftwarePunt\SoWebApiTests\Structs\OAuth;
 
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
@@ -8,8 +8,8 @@ use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use PHPUnit\Framework\TestCase;
-use roydejong\SoWebApi\Config;
-use roydejong\SoWebApi\Structs\OAuth\TokenResponse;
+use SoftwarePunt\SoWebApi\Config;
+use SoftwarePunt\SoWebApi\Structs\OAuth\TokenResponse;
 
 class TokenResponseTest extends TestCase
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace roydejong\SoWebApi\Structs\OAuth;
+namespace SoftwarePunt\SoWebApi\Structs\OAuth;
 
-use roydejong\SoWebApi\Config;
-use roydejong\SoWebApi\Security\JwtValidator;
-use roydejong\SoWebApi\Structs\JsonStruct;
+use SoftwarePunt\SoWebApi\Config;
+use SoftwarePunt\SoWebApi\Security\JwtValidator;
+use SoftwarePunt\SoWebApi\Structs\JsonStruct;
 
 class TokenResponse extends JsonStruct
 {

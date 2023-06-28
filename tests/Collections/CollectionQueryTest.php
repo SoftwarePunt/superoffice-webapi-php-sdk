@@ -1,12 +1,12 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Collections;
+namespace SoftwarePunt\SoWebApiTests\Collections;
 
 use PHPUnit\Framework\TestCase;
-use roydejong\SoWebApi\Client;
-use roydejong\SoWebApi\Collections\Collection;
-use roydejong\SoWebApi\Collections\CollectionQuery;
-use roydejong\SoWebApi\Config;
+use SoftwarePunt\SoWebApi\Client;
+use SoftwarePunt\SoWebApi\Collections\Collection;
+use SoftwarePunt\SoWebApi\Collections\CollectionQuery;
+use SoftwarePunt\SoWebApi\Config;
 
 class CollectionQueryTest extends TestCase
 {

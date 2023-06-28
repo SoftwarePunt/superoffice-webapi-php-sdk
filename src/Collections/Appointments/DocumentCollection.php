@@ -1,9 +1,9 @@
 <?php
 
-namespace roydejong\SoWebApi\Collections\Appointments;
+namespace SoftwarePunt\SoWebApi\Collections\Appointments;
 
-use roydejong\SoWebApi\Collections\Collection;
-use roydejong\SoWebApi\Http\BinaryResponse;
+use SoftwarePunt\SoWebApi\Collections\Collection;
+use SoftwarePunt\SoWebApi\Http\BinaryResponse;
 
 class DocumentCollection extends Collection
 {

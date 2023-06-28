@@ -1,8 +1,8 @@
 # `superoffice-webapi`
 
-[![Latest Stable Version](https://poser.pugx.org/roydejong/superoffice-webapi/version)](https://packagist.org/packages/roydejong/superoffice-webapi)
-[![PHPUnit](https://github.com/roydejong/superoffice-webapi-php-sdk/actions/workflows/phpunit.yml/badge.svg)](https://github.com/roydejong/superoffice-webapi-php-sdk/actions/workflows/phpunit.yml)
-[![Coverage Status](https://coveralls.io/repos/github/roydejong/superoffice-webapi-php-sdk/badge.svg)](https://coveralls.io/github/roydejong/superoffice-webapi-php-sdk)
+[![Latest Stable Version](https://poser.pugx.org/SoftwarePunt/superoffice-webapi/version)](https://packagist.org/packages/softwarepunt/superoffice-webapi)
+[![PHPUnit](https://github.com/SoftwarePunt/superoffice-webapi-php-sdk/actions/workflows/phpunit.yml/badge.svg)](https://github.com/SoftwarePunt/superoffice-webapi-php-sdk/actions/workflows/phpunit.yml)
+[![Coverage Status](https://coveralls.io/repos/github/SoftwarePunt/superoffice-webapi-php-sdk/badge.svg)](https://coveralls.io/github/SoftwarePunt/superoffice-webapi-php-sdk)
 
 ***Unofficial PHP SDK for SuperOffice Web API***
 
@@ -11,9 +11,9 @@ This library provides a PHP SDK for the SuperOffice [REST WebAPI](https://commun
 **This library's functionality is currently limited to Projects, Appointments and Documents, but it should be easy enough to expand it to other SuperOffice types as well if you need them - just note that some work is needed.**
 
 ## Installation
-The recommended way to install this library is with [Composer](http://getcomposer.org/), by adding the [`superoffice-webapi`](https://packagist.org/packages/roydejong/superoffice-webapi) package as a dependency to your application:
+The recommended way to install this library is with [Composer](http://getcomposer.org/), by adding the [`superoffice-webapi`](https://packagist.org/packages/SoftwarePunt/superoffice-webapi) package as a dependency to your application:
 
-    composer require roydejong/superoffice-webapi
+    composer require softwarepunt/superoffice-webapi
     
 ## Configuration
 
@@ -26,8 +26,8 @@ When initializing the client, you must pass a `Config` object:
 ```php
 <?php
 
-use roydejong\SoWebApi\Client;
-use roydejong\SoWebApi\Config;
+use SoftwarePunt\SoWebApi\Client;
+use SoftwarePunt\SoWebApi\Config;
 
 $config = new Config();
 $config->environment = "sod";
@@ -71,7 +71,7 @@ After setting your configuration, you can ask the client to generate the OAuth a
 ```php
 <?php 
 
-use roydejong\SoWebApi\Client;
+use SoftwarePunt\SoWebApi\Client;
 
 $client = new Client(/* $config */);
 $redirectUrl = $client->getOAuthAuthorizationUrl("optional_state");
@@ -138,7 +138,7 @@ You must explicitly set the access token you want to use with the client before 
 ```php
 <?php
 
-use roydejong\SoWebApi\Client;
+use SoftwarePunt\SoWebApi\Client;
 
 // Optionally pass it directly in the client constructor:
 $client = new Client(/* $config */, $tokenResponse->access_token);
@@ -155,7 +155,7 @@ You can perform a [tenant status check](https://community.superoffice.com/en/dev
 ```php
 <?php
 
-use roydejong\SoWebApi\Client;
+use SoftwarePunt\SoWebApi\Client;
 
 // Authentication is not required, but "tenantId" must be set in your config.
 $client = new Client(/* $config */);

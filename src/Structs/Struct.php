@@ -1,6 +1,6 @@
 <?php
 
-namespace roydejong\SoWebApi\Structs;
+namespace SoftwarePunt\SoWebApi\Structs;
 
 /**
  * Helper class for representing data structures as convertible objects.

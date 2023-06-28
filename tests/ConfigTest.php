@@ -1,8 +1,8 @@
 <?php
 
-namespace roydejong\SoWebApiTests;
+namespace SoftwarePunt\SoWebApiTests;
 
-use roydejong\SoWebApi\Config;
+use SoftwarePunt\SoWebApi\Config;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase

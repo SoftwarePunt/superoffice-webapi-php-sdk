@@ -1,10 +1,10 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Structs\UDef;
+namespace SoftwarePunt\SoWebApiTests\Structs\UDef;
 
 use PHPUnit\Framework\TestCase;
-use roydejong\SoWebApi\Structs\JsonStruct;
-use roydejong\SoWebApi\Structs\UDef\UDefJsonStruct;
+use SoftwarePunt\SoWebApi\Structs\JsonStruct;
+use SoftwarePunt\SoWebApi\Structs\UDef\UDefJsonStruct;
 
 class UDefJsonStructTest extends TestCase
 {
@@ -122,7 +122,7 @@ class UDefJsonStructTest extends TestCase
         ];
 
         $function1 = $struct->getUserListValue("function-1");
-        $this->assertInstanceOf("roydejong\SoWebApi\Structs\UDef\UDefListValue", $function1);
+        $this->assertInstanceOf("SoftwarePunt\SoWebApi\Structs\UDef\UDefListValue", $function1);
         $this->assertSame(11, $function1->Id);
         $this->assertSame("func name", $function1->DisplayText);
         $this->assertSame("the tip", $function1->DisplayTooltip);

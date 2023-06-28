@@ -1,10 +1,10 @@
 <?php
 
-namespace roydejong\SoWebApiTests\Structs;
+namespace SoftwarePunt\SoWebApiTests\Structs;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-use roydejong\SoWebApi\Structs\JsonStruct;
+use SoftwarePunt\SoWebApi\Structs\JsonStruct;
 
 class JsonStructTest extends TestCase
 {
