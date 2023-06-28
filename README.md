@@ -2,7 +2,6 @@
 
 [![Latest Stable Version](https://poser.pugx.org/SoftwarePunt/superoffice-webapi/version)](https://packagist.org/packages/softwarepunt/superoffice-webapi)
 [![PHPUnit](https://github.com/SoftwarePunt/superoffice-webapi-php-sdk/actions/workflows/phpunit.yml/badge.svg)](https://github.com/SoftwarePunt/superoffice-webapi-php-sdk/actions/workflows/phpunit.yml)
-[![Coverage Status](https://coveralls.io/repos/github/SoftwarePunt/superoffice-webapi-php-sdk/badge.svg)](https://coveralls.io/github/SoftwarePunt/superoffice-webapi-php-sdk)
 
 ***Unofficial PHP SDK for SuperOffice Web API***
 

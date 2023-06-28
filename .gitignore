@@ -1,9 +1,5 @@
 # Composer dependencies
 /vendor/
 
-# Test coverage output
-**/clover.xml
-**/coveralls.json
-
 # PHPunit
 .phpunit.result.cache
