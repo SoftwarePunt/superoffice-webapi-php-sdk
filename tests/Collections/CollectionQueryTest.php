@@ -2,6 +2,7 @@
 
 namespace SoftwarePunt\SoWebApiTests\Collections;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use SoftwarePunt\SoWebApi\Client;
 use SoftwarePunt\SoWebApi\Collections\Collection;
@@ -103,8 +104,36 @@ class CollectionQueryTest extends TestCase
         $cq->andWhereEquals('enabled', true);
         $cq->andWhereEquals('type', [1,2,3]);
         $cq->andWhereEquals('test', [1]);
+        $cq->andWhereEquals('someDate', new \DateTime("2026-09-11 11:11:11"));
 
-        $this->assertSame("\$filter=name eq 'bob' and enabled eq 1 and type oneOf('1','2','3') and test eq 1",
+        $this->assertSame("\$filter=name eq 'bob' and enabled eq 1 and type oneOf('1','2','3') and test eq 1 and someDate eq '2026-09-11 11:11:11'",
+            $cq->getQueryString()
+        );
+    }
+
+    public function testFilterOneOf()
+    {
+        $cl = new Client(new Config([]));
+        $dc = new CollectionQueryTestDummyCollection($cl);
+        $cq = new CollectionQuery($dc);
+
+        $cq->andWhereOneOf('type', [1,2,3]);
+        $cq->andWhereOneOf('test', [1]);
+
+        $this->assertSame("\$filter=type oneOf('1','2','3') and test oneOf('1')",
+            $cq->getQueryString()
+        );
+    }
+
+    public function testFilterDeepSerialization()
+    {
+        $cl = new Client(new Config([]));
+        $dc = new CollectionQueryTestDummyCollection($cl);
+        $cq = new CollectionQuery($dc);
+
+        $cq->andWhereOneOf('type', [true,false,new DateTime("2023-04-05 06:07:08")]);
+
+        $this->assertSame("\$filter=type oneOf('1','0','2023-04-05 06:07:08')",
             $cq->getQueryString()
         );
     }

@@ -2,6 +2,7 @@
 
 namespace SoftwarePunt\SoWebApi\Collections;
 
+use DateTime;
 use SoftwarePunt\SoWebApi\Structs\Struct;
 use SoftwarePunt\SoWebApi\WebApiException;
 
@@ -64,19 +65,13 @@ class CollectionQuery
      * @param bool|int|float|string|array $expectedValue
      * @return $this
      */
-    protected function andWhere(string $columnName, $operator, $expectedValue): self
+    protected function andWhere(string $columnName, string $operator, mixed $expectedValue): self
     {
         if (!empty($this->filter)) {
             $this->filter .= " and ";
         }
 
-        if (is_bool($expectedValue)) {
-            $expectedValue = $expectedValue ? 1 : 0;
-        }
-
-        if (is_array($expectedValue) && count($expectedValue) === 1) {
-            $expectedValue = array_values($expectedValue)[0];
-        }
+        $expectedValue = $this->serializeValue($expectedValue, $operator);
 
         if (is_integer($expectedValue) || is_float($expectedValue)) {
             $this->filter .= "{$columnName} {$operator} {$expectedValue}";
@@ -90,6 +85,30 @@ class CollectionQuery
         return $this;
     }
 
+    protected function serializeValue(mixed $value, string $operator): mixed
+    {
+        if (is_bool($value)) {
+            return $value ? 1 : 0;
+        }
+
+        if ($value instanceof DateTime) {
+            $value = $value->format("Y-m-d H:i:s");
+        }
+
+        if (is_array($value)) {
+            if (count($value) === 1 && $operator !== "oneOf") {
+                return array_values($value)[0];
+            }
+            $newArr = [];
+            foreach ($value as $key => $subValue) {
+                $newArr[$key] = $this->serializeValue($subValue, $operator);
+            }
+            return $newArr;
+        }
+
+        return $value;
+    }
+
     /**
      * Adds a filter condition with an "and equals" clause.
      *
@@ -97,7 +116,7 @@ class CollectionQuery
      * @param bool|int|float|string|array $expectedValue
      * @return $this
      */
-    public function andWhereEquals(string $columnName, $expectedValue): self
+    public function andWhereEquals(string $columnName, mixed $expectedValue): self
     {
         return $this->andWhere($columnName, "eq", $expectedValue);
     }
@@ -109,7 +128,7 @@ class CollectionQuery
      * @param int|float $expectedValue
      * @return $this
      */
-    public function andWhereGreaterThan(string $columnName, $expectedValue): self
+    public function andWhereGreaterThan(string $columnName, mixed $expectedValue): self
     {
         return $this->andWhere($columnName, "gt", $expectedValue);
     }
@@ -121,7 +140,7 @@ class CollectionQuery
      * @param int|float $expectedValue
      * @return $this
      */
-    public function andWhereLessThan(string $columnName, $expectedValue): self
+    public function andWhereLessThan(string $columnName, mixed $expectedValue): self
     {
         return $this->andWhere($columnName, "lt", $expectedValue);
     }
