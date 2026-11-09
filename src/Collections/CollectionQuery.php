@@ -127,6 +127,18 @@ class CollectionQuery
     }
 
     /**
+     * Adds a filter condition with a "where one of" clause.
+     *
+     * @param string $columnName
+     * @param array $oneOfValues
+     * @return $this
+     */
+    public function andWhereOneOf(string $columnName, array $oneOfValues): self
+    {
+        return $this->andWhere($columnName, "oneOf", $oneOfValues);
+    }
+
+    /**
      * Set query limit ($top).
      *
      * @param int $limit Max amount of records to return.
