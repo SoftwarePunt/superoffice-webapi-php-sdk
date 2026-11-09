@@ -111,6 +111,20 @@ class CollectionQueryTest extends TestCase
         );
     }
 
+    public function testFilterAppendRaw()
+    {
+        $cl = new Client(new Config([]));
+        $dc = new CollectionQueryTestDummyCollection($cl);
+        $cq = new CollectionQuery($dc);
+
+        $cq->andWhereEquals('name', "bob");
+        $cq->andWhereRaw("or something else");
+
+        $this->assertSame("\$filter=name eq 'bob' and or something else",
+            $cq->getQueryString()
+        );
+    }
+
     public function testFilterOneOf()
     {
         $cl = new Client(new Config([]));

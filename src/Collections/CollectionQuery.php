@@ -110,6 +110,21 @@ class CollectionQuery
     }
 
     /**
+     * Appends a raw expression to the query as an "and" block.
+     *
+     * @param string $rawExpression The raw string expression to be appeneded literally.
+     */
+    public function andWhereRaw(string $rawExpression): self
+    {
+        if (!empty($this->filter)) {
+            $this->filter .= " and ";
+        }
+
+        $this->filter .= $rawExpression;
+        return $this;
+    }
+
+    /**
      * Adds a filter condition with an "and equals" clause.
      *
      * @param string $columnName
