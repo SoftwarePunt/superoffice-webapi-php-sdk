@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use SoftwarePunt\SoWebApi\Collections\Appointments\AppointmentCollection;
 use SoftwarePunt\SoWebApi\Collections\Appointments\DocumentCollection;
 use SoftwarePunt\SoWebApi\Collections\Projects\ProjectCollection;
+use SoftwarePunt\SoWebApi\Helpers\AgentsHelper;
 use SoftwarePunt\SoWebApi\Structs\Meta\TenantStatus;
 use SoftwarePunt\SoWebApi\Structs\OAuth\TokenResponse;
 use Spatie\GuzzleRateLimiterMiddleware\RateLimiterMiddleware;
@@ -122,14 +123,12 @@ class Client
      *
      * @throws WebApiException
      */
-    protected function __request(string $method, string $url, string $body = null, array $options = []): ResponseInterface
+    protected function __request(string $method, string $url, string $body = null, array $options = [], array $headers = []): ResponseInterface
     {
         try {
-            $headers = [
-                'User-Agent' => self::USER_AGENT,
-                'Accept' => 'application/json; charset=utf-8',
-                'Accept-Language' => '*'
-            ];
+            $headers['User-Agent'] = self::USER_AGENT;
+            $headers['Accept'] = 'application/json; charset=utf-8';
+            $headers['Accept-Language'] = '*';
 
             if ($this->accessToken) {
                 $headers['Authorization'] = "Bearer {$this->accessToken}";
@@ -282,10 +281,36 @@ class Client
         return $this->__request("GET", $url, null, $options);
     }
 
+    /**
+     * Performs a HTTP POST request on the WebAPI.
+     *
+     * @param string $path The relative path to query, e.g. "/api/v1/Project/default".
+     * @param array $options Custom request options / overrides.
+     * @return ResponseInterface
+     */
+    public function post(string $path, array $body, array $options = []): ResponseInterface
+    {
+        $url = $this->getBaseUrl() . $path;
+        return $this->__request(
+            method: "POST",
+            url: $url,
+            body: json_encode($body),
+            options: $options,
+            headers: [
+                'Content-Type' => "application/json"
+            ]
+        );
+    }
+
     // -----------------------------------------------------------------------------------------------------------------
     // Collections
 
     public function projects(): ProjectCollection { return new ProjectCollection($this); }
     public function appointments(): AppointmentCollection { return new AppointmentCollection($this); }
     public function documents(): DocumentCollection { return new DocumentCollection($this); }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Helpers
+
+    public function agents(): AgentsHelper { return new AgentsHelper($this); }
 }
