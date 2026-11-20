@@ -185,3 +185,18 @@ This library exposes different collections of API entities that you can interact
 |Projects|`$client->projects()`|`/api/v1/Project`|
 |Appointments|`$client->appointments()`|`/api/v1/Appointment`|
 |Documents|`$client->documents()`|`/api/v1/Document`|
+
+## Utilities
+
+### Downloading project images
+
+If a Project has an image attached, you can use a utility to download the image blob by project ID:
+
+```php
+if ($project->HasImage) {
+    $blob = $this->client->agents()->getProjectImageBlob($soProject->ProjectId);
+    // $blob is base64 image data
+}
+```
+
+You may be able to determine the filename from `$project->ImageDescription`, but most likely you will need to detect the image type from the blob yourself.
